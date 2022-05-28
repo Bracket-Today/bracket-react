@@ -1,8 +1,6 @@
-import { AppRegistry } from 'react-native'
-
+import { createRoot } from 'react-dom/client';
 import App from 'app/src/App'
 
-AppRegistry.registerComponent('Bracket', () => App)
-AppRegistry.runApplication('Bracket', {
-  rootTag: document.getElementById('root'),
-})
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);
