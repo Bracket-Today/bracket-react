@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ApolloProvider } from '@apollo/client';
 import {
   SafeAreaView,
   ScrollView,
+  Text
 } from 'react-native';
 
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-} from "@apollo/client";
-
 import Bracket from 'app/src/components/Bracket';
-
-const client = new ApolloClient({
-  uri: 'http://localhost:4008/api/1/graphql',
-  cache: new InMemoryCache()
-});
+import useClientSetup from 'app/src/hooks/useClientSetup';
 
 const App = () => {
+  const { client } = useClientSetup();
+
+  if (!client) {
+    return (
+      <ScrollView>
+        <Text>Initializing...</Text>
+      </ScrollView>
+    );
+  }
+
   return (
     <ApolloProvider client={client}>
       <SafeAreaView>
