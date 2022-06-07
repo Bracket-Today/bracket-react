@@ -3,6 +3,7 @@ import { Text, View, } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
+import Competitor from './Competitor';
 import { TOURNAMENT } from './queries';
 
 const Tournament = styled(View)`
@@ -35,23 +36,11 @@ const Lower = styled(Upper)`
   border-right-color: black;
 `;
 
-const Competitor = ({ competitor, contest }) => {
-  const style = {};
-  if (contest.winner?.id === competitor.id) {
-    style['color'] = 'green'
-  }
-
-  return (
-    <Text style={style}>
-      {competitor?.seed} {competitor?.entity.name}
-    </Text>
-  );
-};
-
 const Bracket = () => {
-  const id = 28; // TODO from params
+  const id = 31; // TODO from params
 
-  const { data, loading } = useQuery(TOURNAMENT, { variables: { id } });
+  const { data, loading, refetch } =
+    useQuery(TOURNAMENT, { variables: { id } });
 
   if (loading) { return <Text>Loading...</Text>; }
 
@@ -66,10 +55,18 @@ const Bracket = () => {
               <View key={contest.id} style={{flex: round.multiplier}}>
               <Contest>
                 <Upper>
-                  <Competitor competitor={contest.upper} contest={contest} />
+                  <Competitor
+                    competitor={contest.upper}
+                    contest={contest}
+                    refetch={refetch}
+                  />
                 </Upper>
                 <Lower>
-                  <Competitor competitor={contest.lower} contest={contest} />
+                  <Competitor
+                    competitor={contest.lower}
+                    contest={contest}
+                    refetch={refetch}
+                  />
                 </Lower>
               </Contest>
               </View>

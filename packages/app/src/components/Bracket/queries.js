@@ -23,6 +23,7 @@ export const TOURNAMENT = gql`
           id
           round
           sort
+          isActive
           upper {
             ...CompetitorFields
           }
@@ -32,7 +33,20 @@ export const TOURNAMENT = gql`
           winner {
             ...CompetitorFields
           }
+          currentUserVote {
+            ...CompetitorFields
+          }
         }
+      }
+    }
+  }
+`;
+
+export const SUBMIT_VOTE = gql`
+  mutation SubmitVote($input: SubmitVoteInput!) {
+    submitVote(input: $input) {
+      contest {
+        id
       }
     }
   }
