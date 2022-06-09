@@ -6,7 +6,8 @@ import {
   Text
 } from 'react-native';
 
-import Bracket from 'app/src/components/Bracket';
+import { Router } from 'app/src/utils/routing';
+import Routes from 'app/src/routes';
 import useClientSetup from 'app/src/hooks/useClientSetup';
 
 const App = () => {
@@ -21,13 +22,15 @@ const App = () => {
   }
 
   return (
-    <ApolloProvider client={client}>
-      <SafeAreaView>
-        <ScrollView>
-          <Bracket />
-        </ScrollView>
-      </SafeAreaView>
-    </ApolloProvider>
+    <Router>
+      <ApolloProvider client={client}>
+        <SafeAreaView>
+          <ScrollView>
+            <Routes />
+          </ScrollView>
+        </SafeAreaView>
+      </ApolloProvider>
+    </Router>
   );
 };
 

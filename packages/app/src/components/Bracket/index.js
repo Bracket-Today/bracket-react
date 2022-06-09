@@ -3,6 +3,8 @@ import { Text, View, } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
+import { useParams } from 'app/src/utils/routing';
+
 import Competitor from './Competitor';
 import { TOURNAMENT } from './queries';
 
@@ -37,7 +39,7 @@ const Lower = styled(Upper)`
 `;
 
 const Bracket = () => {
-  const id = 31; // TODO from params
+  const { id } = useParams();
 
   const { data, loading, refetch } =
     useQuery(TOURNAMENT, { variables: { id } });
