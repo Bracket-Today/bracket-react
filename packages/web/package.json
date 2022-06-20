@@ -17,7 +17,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "eject": "react-app-rewired eject",
+    "production": "sh -ac '. .env.prod; react-app-rewired build && aws s3 sync --profile pti-deploy build/ s3://www.bracket.today' && aws cloudfront create-invalidation --distribution-id E1Y5OO3QCYKMLL --profile pti-deploy --paths '/index.html'"
   },
   "eslintConfig": {
     "extends": [

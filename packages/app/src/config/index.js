@@ -1,6 +1,6 @@
 const config = {
   api: {
-    uri: 'http://localhost:4008/api/1/graphql',
+    uri: process.env.REACT_APP_API_URI + '/graphql'
   }
 };
 
