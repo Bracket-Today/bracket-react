@@ -7,7 +7,9 @@ import { Link } from 'app/src/utils/routing';
 import { TOURNAMENTS } from './queries';
 
 const Home = () => {
-  const { data, loading } = useQuery(TOURNAMENTS);
+  const { data, loading } = useQuery(
+    TOURNAMENTS, { variables: { scopes: ['active'] } }
+  );
 
   if (loading) { return <Text>Loading...</Text>; }
 
