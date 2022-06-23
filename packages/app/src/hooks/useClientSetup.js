@@ -56,11 +56,14 @@ const useClientSetup = () => {
         return forward(operation).map(data => {
           const context = operation.getContext();
 
-          if (context.response?.headers) {
-            localStorage.setItem(
-              'X-Request-Id',
-              context.response.headers.get('X-Request-Id')
-            );
+          // TODO Native support
+          if ('undefined' !== typeof(localStorage)) {
+            if (context.response?.headers) {
+              localStorage.setItem(
+                'X-Request-Id',
+                context.response.headers.get('X-Request-Id')
+              );
+            }
           }
 
           return data;

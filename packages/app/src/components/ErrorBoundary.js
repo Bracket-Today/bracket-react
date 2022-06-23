@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { View, Text, Button } from 'react-native';
 import config from 'app/src/config';
 
 export const sendError = ({ error, user }) => {
@@ -11,9 +12,13 @@ export const sendError = ({ error, user }) => {
   }
 
   let storage = {};
-  Object.keys(localStorage).forEach((key) => {
-    storage[key] = localStorage.getItem(key);
-  });
+
+  // TODO Native support
+  if ('undefined' !== typeof(localStorage)) {
+    Object.keys(localStorage).forEach((key) => {
+      storage[key] = localStorage.getItem(key);
+    });
+  }
 
   fetch(config.pti?.issueUrl || 'https://preflighttech.com/api/1/issues', {
     method: 'post',
@@ -38,10 +43,10 @@ export const sendError = ({ error, user }) => {
         user_type: (user?.userType || user?.__typename),
         user_id: user?.id,
 
-        request_id: localStorage.getItem('X-Request-Id'),
+        request_id: storage['X-Request-Id'],
 
-        referrer: window.document.referrer,
-        url: window.document.documentURI,
+        referrer: window.document?.referrer,
+        url: window.document?.documentURI,
 
         request_at: new Date(),
 
@@ -58,17 +63,20 @@ export const sendError = ({ error, user }) => {
 
 export const ErrorMessage = ({ message }) => {
   return (
-    <div>
-      <h2>
+    <View>
+      <Text>
         An error has occurred. We have been notified.
-      </h2>
+      </Text>
 
-      <pre>{message}</pre>
+      <Text>{message}</Text>
 
-      <button onClick={() => window.location.assign('/')}>
-        Return to Home Screen
-      </button>
-    </div>
+      {window.location && (
+        <Button
+          onClick={() => window.location.assign('/')}
+          title="Return to Home Screen"
+        />
+      )}
+    </View>
   );
 };
 
