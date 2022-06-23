@@ -9,6 +9,7 @@ import {
 import { Router } from 'app/src/utils/routing';
 import Routes from 'app/src/routes';
 import useClientSetup from 'app/src/hooks/useClientSetup';
+import ErrorBoundary from 'app/src/components/ErrorBoundary';
 
 const App = () => {
   const { client } = useClientSetup();
@@ -22,15 +23,19 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <ApolloProvider client={client}>
-        <SafeAreaView>
-          <ScrollView>
-            <Routes />
-          </ScrollView>
-        </SafeAreaView>
-      </ApolloProvider>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <ApolloProvider client={client}>
+          <SafeAreaView>
+            <ScrollView>
+              <ErrorBoundary>
+                <Routes />
+              </ErrorBoundary>
+            </ScrollView>
+          </SafeAreaView>
+        </ApolloProvider>
+      </Router>
+    </ErrorBoundary>
   );
 };
 
