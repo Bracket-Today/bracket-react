@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, } from 'react-native';
+import { ScrollView, Text, View, } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
@@ -47,36 +47,38 @@ const Bracket = () => {
   if (loading) { return <Text>Loading...</Text>; }
 
   return (
-    <View>
+    <>
       <Text>{data.tournament.name}</Text>
-      <Tournament>
-        {data.tournament.rounds.map(round => (
-          <Round key={round.number}>
-            <Text>Round #{round.number}</Text>
-            {round.contests.map(contest => (
-              <View key={contest.id} style={{flex: round.multiplier}}>
-              <Contest>
-                <Upper>
-                  <Competitor
-                    competitor={contest.upper}
-                    contest={contest}
-                    refetch={refetch}
-                  />
-                </Upper>
-                <Lower>
-                  <Competitor
-                    competitor={contest.lower}
-                    contest={contest}
-                    refetch={refetch}
-                  />
-                </Lower>
-              </Contest>
-              </View>
-            ))}
-          </Round>
-        ))}
-      </Tournament>
-    </View>
+      <ScrollView horizontal >
+        <Tournament>
+          {data.tournament.rounds.map(round => (
+            <Round key={round.number}>
+              <Text>Round #{round.number}</Text>
+              {round.contests.map(contest => (
+                <View key={contest.id} style={{flex: round.multiplier}}>
+                <Contest>
+                  <Upper>
+                    <Competitor
+                      competitor={contest.upper}
+                      contest={contest}
+                      refetch={refetch}
+                    />
+                  </Upper>
+                  <Lower>
+                    <Competitor
+                      competitor={contest.lower}
+                      contest={contest}
+                      refetch={refetch}
+                    />
+                  </Lower>
+                </Contest>
+                </View>
+              ))}
+            </Round>
+          ))}
+        </Tournament>
+      </ScrollView>
+    </>
   );
 };
 
