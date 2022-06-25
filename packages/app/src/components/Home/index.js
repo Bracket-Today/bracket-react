@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, } from 'react-native';
+import { View } from 'react-native';
 import { useQuery } from '@apollo/client';
 
+import { Text } from 'app/src/styles';
 import { Link } from 'app/src/utils/routing';
 
 import { TOURNAMENTS } from './queries';

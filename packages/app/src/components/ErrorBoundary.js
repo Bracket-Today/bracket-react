@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Button } from 'react-native';
 import config from 'app/src/config';
+
+import { Text } from 'app/src/styles';
 
 export const sendError = ({ error, user }) => {
   const environment =

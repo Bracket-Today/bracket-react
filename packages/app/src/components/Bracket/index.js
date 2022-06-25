@@ -1,12 +1,22 @@
 import React from 'react';
-import { ScrollView, Text, View, } from 'react-native';
+import { ScrollView, View, } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
 import { useParams } from 'app/src/utils/routing';
+import { HeaderText, Text } from 'app/src/styles';
 
 import Competitor from './Competitor';
 import { TOURNAMENT } from './queries';
+
+const Header = styled(View)`
+  margin-bottom: 20px;
+`;
+
+const Title = styled(HeaderText)`
+  font-size: 22px;
+  font-weight: 800;
+`;
 
 const Tournament = styled(View)`
   display: flex;
@@ -48,7 +58,9 @@ const Bracket = () => {
 
   return (
     <>
-      <Text>{data.tournament.name}</Text>
+      <Header>
+        <Title>{data.tournament.name}</Title>
+      </Header>
       <ScrollView horizontal >
         <Tournament>
           {data.tournament.rounds.map(round => (

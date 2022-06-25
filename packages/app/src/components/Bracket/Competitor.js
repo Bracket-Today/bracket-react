@@ -1,7 +1,9 @@
 import React from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { View, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
+
+import { Text } from 'app/src/styles';
 
 import { SUBMIT_VOTE } from './queries';
 
