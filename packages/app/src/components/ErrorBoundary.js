@@ -5,8 +5,11 @@ import config from 'app/src/config';
 import { Text } from 'app/src/styles';
 
 export const sendError = ({ error, user }) => {
-  const environment =
-    process.env.REACT_APP_ENVIRONMENT || process.env.NODE_ENV;
+  // NOTE(Jared Morgan 2022-06-25) In native, NODE_ENV is not read without
+  // first setting a const to process.env. I have no idea why. I assume it's due
+  // to a mistake I'm making. But this works, so I'm keeping it.
+  const env = process.env;
+  const environment = env.REACT_APP_ENVIRONMENT || env.NODE_ENV;
 
   let tags = [environment];
   if (process.env.REACT_APP_ISSUE_TAGS) {
