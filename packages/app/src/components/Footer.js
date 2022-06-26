@@ -10,14 +10,15 @@ const PRIVACY_URL = 'https://www.privacypolicygenerator.info/live.php?token=RFRQ
 
 const Container = styled(View)`
   background-color: ${colors.screen};
-  height: 120px;
+  height: 90px;
+  padding: 20px;
+  padding-left: 40px;
 `;
 
 const FooterText = styled(HeaderText)`
   color: white;
-  font-size: 18px;
-  padding: 20px;
-  padding-left: 40px;
+  font-size: 16px;
+  margin-bottom: 6px;
 `;
 
 const Footer = () => {
@@ -30,6 +31,9 @@ const Footer = () => {
   return (
     <Container>
       <FooterText onPress={openPrivacy}>Privacy Policy</FooterText>
+      <Link to="/ticket">
+        <FooterText>Report a Bug</FooterText>
+      </Link>
     </Container>
   );
 };
