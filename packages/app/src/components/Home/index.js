@@ -1,11 +1,17 @@
 import React from 'react';
 import { View } from 'react-native';
 import { useQuery } from '@apollo/client';
+import styled from 'styled-components/native';
 
 import { Text } from 'app/src/styles';
-import { Link } from 'app/src/utils/routing';
 
 import { TOURNAMENTS } from './queries';
+import TournamentCard from './TournamentCard';
+
+const Container = styled(View)`
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
 
 const Home = () => {
   const { data, loading } = useQuery(
@@ -15,15 +21,13 @@ const Home = () => {
   if (loading) { return <Text>Loading...</Text>; }
 
   return (
-    <View>
+    <Container>
       {data.tournaments.map(tournament => (
         <View key={tournament.id}>
-          <Link to={`/bracket/${tournament.id}`}>
-            <Text>{tournament.name}</Text>
-          </Link>
+          <TournamentCard tournament={tournament} />
         </View>
       ))}
-    </View>
+    </Container>
   );
 };
 
