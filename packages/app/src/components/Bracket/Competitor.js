@@ -12,6 +12,13 @@ const Container = styled(View)`
   flex-direction: row;
 `;
 
+const Score = styled(Text)`
+  margin-left: 6px;
+  margin-right: 6px;
+  margin-top: 3px;
+  font-size: 12px;
+`;
+
 const VoteIcon = styled(View)`
   background-color: gray;
   color: white;
@@ -22,7 +29,7 @@ const VoteIcon = styled(View)`
   padding-left: 3px;
 `;
 
-const Competitor = ({ competitor, contest, refetch }) => {
+const Competitor = ({ competitor, contest, priorScore, refetch }) => {
   const [submitVote] = useMutation(SUBMIT_VOTE, {
     variables: {
       input: {
@@ -65,6 +72,7 @@ const Competitor = ({ competitor, contest, refetch }) => {
       <Text style={style}>
         {competitor?.seed} {competitor?.entity.name}
       </Text>
+      {priorScore && <Score>({priorScore[0]}-{priorScore[1]})</Score>}
       <Pressable onPress={handleVote}>
         <Text>
           {voteIcon}

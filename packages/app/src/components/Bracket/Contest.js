@@ -32,6 +32,7 @@ const Contest = ({ contest, refetch }) => {
         <Competitor
           competitor={contest.upper}
           contest={contest}
+          priorScore={contest.upperPriorScore}
           refetch={refetch}
         />
       </Upper>
@@ -39,6 +40,7 @@ const Contest = ({ contest, refetch }) => {
         <Competitor
           competitor={contest.lower}
           contest={contest}
+          priorScore={contest.lowerPriorScore}
           refetch={refetch}
         />
       </Lower>

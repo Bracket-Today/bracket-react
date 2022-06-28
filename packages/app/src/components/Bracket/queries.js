@@ -32,6 +32,8 @@ export const ROUND_FIELDS = gql`
       currentUserVote {
         ...CompetitorFields
       }
+      upperPriorScore
+      lowerPriorScore
     }
   }
 `;
