@@ -33,7 +33,7 @@ const Detail = ({ tournament, refetch }) => {
       <>
         <Text>Round {tournament.round.number}</Text>
         <View>
-          {tournament.round.contests.map(contest => (
+          {tournament.round.contests.slice(0, 2).map(contest => (
             <Contest
               key={contest.id}
               contest={contest}
