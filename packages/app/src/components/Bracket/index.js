@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 
 import { useParams } from 'app/src/utils/routing';
 import { HeaderText, Text } from 'app/src/styles';
+import DataState from 'app/src/components/DataState';
 
 import { TOURNAMENT } from './queries';
 import Contest from './Contest';
@@ -32,19 +33,17 @@ const Round = styled(View)`
 const Bracket = () => {
   const { id } = useParams();
 
-  const { data, loading, refetch } =
+  const { data, refetch, ...queryStatus } =
     useQuery(TOURNAMENT, { variables: { id } });
 
-  if (loading) { return <Text>Loading...</Text>; }
-
   return (
-    <>
+    <DataState data={data} {...queryStatus}>
       <Header>
-        <Title>{data.tournament.name}</Title>
+        <Title>{data?.tournament.name}</Title>
       </Header>
-      <ScrollView horizontal >
+      <ScrollView horizontal>
         <Tournament>
-          {data.tournament.rounds.map(round => (
+          {data?.tournament.rounds.map(round => (
             <Round key={round.number}>
               <Text>Round #{round.number}</Text>
               {round.contests.map(contest => (
@@ -56,7 +55,7 @@ const Bracket = () => {
           ))}
         </Tournament>
       </ScrollView>
-    </>
+    </DataState>
   );
 };
 

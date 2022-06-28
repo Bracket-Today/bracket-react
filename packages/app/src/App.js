@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
-import { View, SafeAreaView, ScrollView } from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  SafeAreaView,
+  ScrollView
+} from 'react-native';
 import styled from 'styled-components/native';
 
 import { Router } from 'app/src/utils/routing';
@@ -33,7 +38,7 @@ const App = () => {
   if (!client) {
     return (
       <ScrollView>
-        <Text>Initializing...</Text>
+        <ActivityIndicator size="large" color={colors.screen} />
       </ScrollView>
     );
   }
