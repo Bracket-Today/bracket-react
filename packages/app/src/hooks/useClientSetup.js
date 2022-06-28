@@ -13,6 +13,8 @@ import config from 'app/src/config';
 import storage from 'app/src/utils/storage';
 import { sendError } from 'app/src/components/ErrorBoundary';
 
+const IGNORE_ERRORS = ['USER_ERROR', 'NOT_FOUND'];
+
 const useClientSetup = () => {
   const [client, setClient] = useState();
   const [uuid, setUuid] = useState();
@@ -40,7 +42,7 @@ const useClientSetup = () => {
 
       const errorLink = onError(({ graphQLErrors }) => {
         if (graphQLErrors && graphQLErrors[0]) {
-          if (graphQLErrors[0].extensions?.code !== 'USER_ERROR') {
+          if (!IGNORE_ERRORS.includes(graphQLErrors[0].extensions?.code)) {
             sendError({
               error: {
                 name: 'GraphQL Error',
