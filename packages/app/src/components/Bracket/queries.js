@@ -44,8 +44,18 @@ export const TOURNAMENT = gql`
     tournament(id: $id) {
       id
       name
+      status
+      round {
+        number
+        secondsRemaining
+      }
       rounds {
         ...RoundFields
+      }
+      winner {
+        entity {
+          name
+        }
       }
     }
   }

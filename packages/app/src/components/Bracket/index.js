@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 import { useParams } from 'app/src/utils/routing';
 import { HeaderText, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
+import durationString from 'app/src/utils/durationString';
 
 import { TOURNAMENT } from './queries';
 import Contest from './Contest';
@@ -17,6 +18,12 @@ const Header = styled(View)`
 const Title = styled(HeaderText)`
   font-size: 22px;
   font-weight: 800;
+`;
+
+const Subtitle = styled(HeaderText)`
+  font-size: 16px;
+  font-weight: 600;
+  color: green;
 `;
 
 const Tournament = styled(View)`
@@ -32,14 +39,49 @@ const Round = styled(View)`
 
 const Bracket = () => {
   const { id } = useParams();
+  const [updatedAt, setUpdatedAt] = useState();
+  const [remaining, setRemaining] = useState();
 
   const { data, refetch, ...queryStatus } =
     useQuery(TOURNAMENT, { variables: { id } });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (updatedAt) {
+        const elapsed = (Date.now() - updatedAt) / 1000;
+        setRemaining(data.tournament.round.secondsRemaining - elapsed);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [updatedAt]);
+
+  useEffect(() => {
+    if ('Active' === data?.tournament.status) {
+      setUpdatedAt(Date.now());
+    }
+  }, [data]);
+
+  let statusDetail = data?.tournament.status;
+
+  if ('Active' === data?.tournament.status) {
+    statusDetail = `Round ${data.tournament.round.number}`
+    if (remaining) {
+      statusDetail += ` \u2013 ${durationString(remaining)} remaining.`;
+    }
+  } else if (data?.tournament.winner) {
+    statusDetail = `WINNER: ${data.tournament.winner.entity.name}`;
+  }
 
   return (
     <DataState data={data} {...queryStatus}>
       <Header>
         <Title>{data?.tournament.name}</Title>
+        <Subtitle>
+          {statusDetail}
+        </Subtitle>
       </Header>
       <ScrollView horizontal>
         <Tournament>
