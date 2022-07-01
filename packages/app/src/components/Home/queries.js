@@ -16,6 +16,10 @@ export const TOURNAMENTS = gql`
       round {
         ...RoundFields
       }
+      votersCount
+      votesCount
+      contestsCount
+      currentUserVotedWinnerCount
     }
   }
 `;

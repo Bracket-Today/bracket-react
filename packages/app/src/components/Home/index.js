@@ -16,7 +16,7 @@ const Container = styled(View)`
 
 const Home = () => {
   const { data, ...queryStatus } = useQuery(
-    TOURNAMENTS, { variables: { scopes: ['active'] } }
+    TOURNAMENTS, { variables: { scopes: ['activeAndRecent'] } }
   );
 
   return (
