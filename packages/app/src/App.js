@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 
+import { ClientProvider, ClientContext } from './contexts/ClientContext';
 import { Router } from 'app/src/utils/routing';
 import Routes from 'app/src/routes';
 import { Text } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
-import useClientSetup from 'app/src/hooks/useClientSetup';
 import ErrorBoundary from 'app/src/components/ErrorBoundary';
 
 import Menu from 'app/src/components/Menu';
@@ -33,33 +33,33 @@ const Content = styled(ScrollView)`
 `;
 
 const App = () => {
-  const { client } = useClientSetup();
-
-  if (!client) {
-    return (
-      <ScrollView>
-        <ActivityIndicator size="large" color={colors.screen} />
-      </ScrollView>
-    );
-  }
-
   return (
     <ErrorBoundary>
-      <Router>
-        <ApolloProvider client={client}>
-          <Screen>
-            <Container>
-              <Menu />
-              <Content>
-                <ErrorBoundary>
-                  <Routes />
-                </ErrorBoundary>
-              </Content>
-              <Footer />
-            </Container>
-          </Screen>
-        </ApolloProvider>
-      </Router>
+      <ClientProvider>
+        <ClientContext.Consumer>
+          {ctx => ctx.client ? (
+            <Router>
+              <ApolloProvider client={ctx.client}>
+                <Screen>
+                  <Container>
+                    <Menu />
+                    <Content>
+                      <ErrorBoundary>
+                        <Routes />
+                      </ErrorBoundary>
+                    </Content>
+                    <Footer />
+                  </Container>
+                </Screen>
+              </ApolloProvider>
+            </Router>
+          ) : (
+            <ScrollView>
+              <ActivityIndicator size="large" color={colors.screen} />
+            </ScrollView>
+          )}
+        </ClientContext.Consumer>
+      </ClientProvider>
     </ErrorBoundary>
   );
 };
