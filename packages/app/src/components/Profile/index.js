@@ -21,7 +21,7 @@ const Profile = () => {
       </Header>
       <BoldText>
         Sign In Link:
-        https://www.bracket.today/login/{data?.currentUser.loginCode}
+        https://bracket.today/login/{data?.currentUser.loginCode}
       </BoldText>
       <Text>
         Use the link above to sign in on another device or save to ensure you

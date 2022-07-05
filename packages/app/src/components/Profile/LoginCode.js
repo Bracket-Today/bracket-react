@@ -55,7 +55,7 @@ const LoginCode = () => {
         <Text>
           If you want to be able to switch back, make sure to copy this link
           now:
-          https://www.bracket.today/login/{data?.currentUser.loginCode}
+          https://bracket.today/login/{data?.currentUser.loginCode}
         </Text>
 
         <Button onPress={changeLogin} label="Yes, Change My Login" />
