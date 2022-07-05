@@ -17,7 +17,7 @@ const Card = styled(View)`
   margin-bottom: 20px;
   width: 300px;
   padding: 10px;
-  height: 100%;
+  height: 90%;
   max-height: 260px;
 `;
 
