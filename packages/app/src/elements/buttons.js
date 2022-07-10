@@ -27,6 +27,7 @@ const PressableContainer = styled(Pressable)`
 
 const ButtonText = styled(HeaderText)`
   font-family: '${fonts.header}';
+  font-size: 18px;
   color: white;
   font-weight: 800;
   text-decoration-line: none;
@@ -37,6 +38,10 @@ export const Button = ({ to, label, ...props }) => {
 
   if ('Cancel' === props.type) {
     props.style.backgroundColor ||= '#505050';
+  }
+
+  if (props.wide) {
+    props.style.width = '100%';
   }
 
   const content = <ButtonText>{label}</ButtonText>;
