@@ -7,11 +7,13 @@ import {
   ScrollView
 } from 'react-native';
 import styled from 'styled-components/native';
+import DataTable from '@preflighttech/preflight-tables';
 
 import { ClientProvider, ClientContext } from './contexts/ClientContext';
 import { Router } from 'app/src/utils/routing';
 import Routes from 'app/src/routes';
 import { Text } from 'app/src/styles';
+import tableStyles from 'app/src/styles/table';
 import colors from 'app/src/styles/colors';
 import ErrorBoundary from 'app/src/components/ErrorBoundary';
 
@@ -44,9 +46,15 @@ const App = () => {
                   <Container>
                     <Menu />
                     <Content>
-                      <ErrorBoundary>
-                        <Routes />
-                      </ErrorBoundary>
+                      <DataTable.Provider
+                        pageLength={25}
+                        lengthMenu={ [10, 25, 50, 'All'] }
+                        styles={tableStyles}
+                      >
+                        <ErrorBoundary>
+                          <Routes />
+                        </ErrorBoundary>
+                      </DataTable.Provider>
                     </Content>
                     <Footer />
                   </Container>

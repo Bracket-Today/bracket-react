@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "3.5.6",
+    "@preflighttech/preflight-tables": "^0.0.38",
     "graphql": "16.2.0",
+    "react-dnd": "^16.0.1",
     "react-hook-form": "^7.33.0",
     "react-native-storage": "^1.0.1",
     "react-native-web-responsive": "^1.0.5",
