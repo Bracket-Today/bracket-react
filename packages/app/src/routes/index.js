@@ -10,6 +10,7 @@ import Bracket from 'app/src/components/Bracket';
 import Profile from 'app/src/components/Profile';
 import LoginCode from 'app/src/components/Profile/LoginCode';
 import Ticket from 'app/src/components/Ticket';
+import Tournaments from 'app/src/components/Tournaments';
 
 const Routes = () => {
   return (
@@ -19,6 +20,7 @@ const Routes = () => {
       <Route exact path="/me" element={<Profile />} />
       <Route exact path="/login/:code" element={<LoginCode />} />
       <Route exact path="/ticket" element={<Ticket />} />
+      <Route exact path="/tournaments" element={<Tournaments />} />
     </Switch>
   );
 };

@@ -75,6 +75,11 @@ const MenuItems = () => {
   return (
     <>
       <MenuItem>
+        <Link to="/tournaments">
+          <MenuItemText>Create</MenuItemText>
+        </Link>
+      </MenuItem>
+      <MenuItem>
         <Link to="/me">
           <MenuItemText>Profile</MenuItemText>
         </Link>
