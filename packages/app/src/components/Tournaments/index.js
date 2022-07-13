@@ -9,6 +9,7 @@ import styled from 'styled-components/native';
 import colors from 'app/src/styles/colors';
 import { Title, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
+import { Link } from 'app/src/utils/routing';
 import { Button } from 'app/src/elements/buttons';
 import Input from 'app/src/elements/inputs';
 
@@ -30,6 +31,16 @@ const columns = [
   {
     key: 'status',
     label: 'Status',
+  },
+  {
+    key: 'actions',
+    label: 'Actions',
+    sort: 'prevent',
+    content: ({ entry }) => (
+      <Link to={`/tournaments/${entry.id}`}>
+        <Text>Edit</Text>
+      </Link>
+    )
   }
 ];
 

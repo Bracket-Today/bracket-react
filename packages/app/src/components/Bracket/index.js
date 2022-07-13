@@ -4,18 +4,12 @@ import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
 import { useParams } from 'app/src/utils/routing';
-import { Header, Title, HeaderText, Text } from 'app/src/styles';
+import { Header, Title, Subtitle, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import durationString from 'app/src/utils/durationString';
 
 import { TOURNAMENT } from './queries';
 import Contest from './Contest';
-
-const Subtitle = styled(HeaderText)`
-  font-size: 16px;
-  font-weight: 600;
-  color: green;
-`;
 
 const Tournament = styled(View)`
   display: flex;

@@ -20,3 +20,9 @@ export const Title = styled(HeaderText)`
   font-size: 22px;
   font-weight: 800;
 `;
+
+export const Subtitle = styled(HeaderText)`
+  font-size: 16px;
+  font-weight: 600;
+  color: green;
+`;

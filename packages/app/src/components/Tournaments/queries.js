@@ -8,6 +8,17 @@ const TOURNAMENT_FIELDS = gql`
   }
 `;
 
+export const USER_TOURNAMENT = gql`
+  ${TOURNAMENT_FIELDS}
+  query UserTournaments($id: ID!) {
+    currentUser {
+      tournament(id: $id) {
+        ...TournamentFields
+      }
+    }
+  }
+`;
+
 export const USER_TOURNAMENTS = gql`
   ${TOURNAMENT_FIELDS}
   query UserTournaments {
