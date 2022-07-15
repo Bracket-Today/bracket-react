@@ -9,5 +9,8 @@
   },
   "dependencies": {
     "react-native": "0.68.1"
+  },
+  "scripts": {
+    "postinstall": "scripts/view-prop-types.sh; scripts/copy-to-node-modules.sh"
   }
 }
