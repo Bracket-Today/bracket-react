@@ -10361,6 +10361,11 @@ react-native-storage@^1.0.1:
     opencollective "^1.0.3"
     opencollective-postinstall "^2.0.2"
 
+react-native-toast-message@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-toast-message/-/react-native-toast-message-2.1.5.tgz#550acb9c6c0f1ee49c6b57b65a56d34e297eb723"
+  integrity sha512-mk3rELtBEhrhWBCN6CTaw0gypgL9ZNauX3xx1LUs4uee9vc0pVsghrKxO57vroUCcNL2hDeZSLJWdQNMCkGeaQ==
+
 react-native-web-responsive@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-web-responsive/-/react-native-web-responsive-1.0.5.tgz#d309955adc568d207d93094f982d2146706fa1b9"

@@ -9,6 +9,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
 const appIncludes = [
   resolveApp('src'),
   resolveApp('../app/src'),
+  resolveApp('../../node_modules/react-native-toast-message'),
 ]
 
 module.exports = function override(config, env) {

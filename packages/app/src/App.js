@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import DataTable from '@preflighttech/preflight-tables';
+import Toast, { SuccessToast } from 'react-native-toast-message';
 
 import { ClientProvider, ClientContext } from './contexts/ClientContext';
 import { Router } from 'app/src/utils/routing';
@@ -34,6 +35,16 @@ const Content = styled(ScrollView)`
   padding: 10px;
 `;
 
+const toastConfig = {
+  success: (props) => (
+    <SuccessToast
+      {...props}
+      text1Style={{ fontSize: 22 }}
+      text2Style={{ fontSize: 16 }}
+    />
+  ),
+};
+
 const App = () => {
   return (
     <ErrorBoundary>
@@ -58,6 +69,7 @@ const App = () => {
                     </Content>
                     <Footer />
                   </Container>
+                  <Toast config={toastConfig} />
                 </Screen>
               </ApolloProvider>
             </Router>
