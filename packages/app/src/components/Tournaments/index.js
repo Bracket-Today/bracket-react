@@ -5,11 +5,12 @@ import DataTable from '@preflighttech/preflight-tables';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
+import Toast from 'react-native-toast-message';
 
 import colors from 'app/src/styles/colors';
 import { Title, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
-import { Link } from 'app/src/utils/routing';
+import { Link, useNavigate } from 'app/src/utils/routing';
 import { Button } from 'app/src/elements/buttons';
 import Input from 'app/src/elements/inputs';
 
@@ -46,13 +47,18 @@ const columns = [
 
 const Tournaments = () => {
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const { data, ...queryStatus } = useQuery(USER_TOURNAMENTS);
   const [createTournament] = useMutation(CREATE_TOURNAMENT, {
-    onCompleted: () => {
-      setSubmitted(true);
-      queryStatus.refetch();
+    onCompleted: data => {
+      navigate(`/tournaments/${data.createTournament.tournament.id}`);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Awesome!',
+        text2: 'You can add competitors now',
+      });
     }
   });
 
@@ -83,11 +89,6 @@ const Tournaments = () => {
             label="Build Tournament"
             onPress={handleSubmit(onSubmit)}
           />
-          {submitted && (
-            <Text>
-              Thanks! Check back soon for more you can do or submit another now.
-            </Text>
-          )}
         </View>
       )}
       <DataState data={data} {...queryStatus}>
