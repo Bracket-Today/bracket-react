@@ -5,6 +5,13 @@ const TOURNAMENT_FIELDS = gql`
     id
     name
     status
+    competitors {
+      id
+      entity {
+        id
+        name
+      }
+    }
   }
 `;
 
@@ -38,6 +45,25 @@ export const CREATE_TOURNAMENT = gql`
         ...TournamentFields
       }
       errors { path, message }
+    }
+  }
+`;
+
+export const ENTITIES = gql`
+  query Entities($term: String!) {
+    entities(term: $term) {
+      id
+      name
+    }
+  }
+`;
+
+export const CREATE_COMPETITOR = gql`
+  mutation CreateCompetitor($input: CreateCompetitorInput!) {
+    createCompetitor(input: $input) {
+      competitor {
+        id
+      }
     }
   }
 `;
