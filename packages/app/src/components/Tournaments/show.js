@@ -35,7 +35,9 @@ const Tournament = () => {
         <Subtitle>{data?.currentUser.tournament.status}</Subtitle>
       </Header>
 
-      <Title>Competitors</Title>
+      <Title>
+        Competitors ({data?.currentUser.tournament.competitors.length})
+      </Title>
       {data?.currentUser.tournament.competitors.map(competitor => (
         <Text key={competitor.id}>{competitor.entity.name}</Text>
       ))}
