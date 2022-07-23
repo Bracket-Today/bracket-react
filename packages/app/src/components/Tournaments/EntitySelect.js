@@ -88,6 +88,7 @@ const EntitySelect = ({ tournament, refetch }) => {
 
   const handleKeyPress = e => {
     if (e.nativeEvent.key === 'Enter') {
+      e.preventDefault(); // Don't lose focus
       handlePress();
     }
   };
