@@ -57,6 +57,11 @@ export const TOURNAMENT = gql`
           name
         }
       }
+      currentUserShouldVote
+      currentUserNextTournament {
+        id
+        name
+      }
     }
   }
 `;

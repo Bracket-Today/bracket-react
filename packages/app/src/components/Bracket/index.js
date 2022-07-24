@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
+import Toast from 'react-native-toast-message';
 
-import { useParams } from 'app/src/utils/routing';
+import { useParams, useNavigate } from 'app/src/utils/routing';
 import { Header, Title, Subtitle, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import durationString from 'app/src/utils/durationString';
@@ -26,6 +27,7 @@ const Bracket = () => {
   const { id } = useParams();
   const [updatedAt, setUpdatedAt] = useState();
   const [remaining, setRemaining] = useState();
+  const navigate = useNavigate();
 
   const { data, refetch, ...queryStatus } =
     useQuery(TOURNAMENT, { variables: { id } });
@@ -43,9 +45,40 @@ const Bracket = () => {
     };
   }, [updatedAt]);
 
+  const goToTournament = tournament => {
+    navigate(`/bracket/${tournament.id}`);
+    Toast.hide();
+  }
+
+  const goToCreate = () => {
+    navigate('/tournaments');
+    Toast.hide();
+  }
+
   useEffect(() => {
     if ('Active' === data?.tournament.status) {
       setUpdatedAt(Date.now());
+
+      if (!data.tournament.currentUserShouldVote) {
+        const nextTournament = data.tournament.currentUserNextTournament;
+        if (nextTournament) {
+          Toast.show({
+            type: 'success',
+            text1: 'Your votes are recorded!',
+            text2: `Click to vote on ${nextTournament.name}`,
+            visibilityTime: 30000,
+            onPress: () => goToTournament(nextTournament),
+          });
+        } else {
+          Toast.show({
+            type: 'success',
+            text1: 'Create a bracket',
+            text2: "There's nothing more to vote on.",
+            visibilityTime: 10000,
+            onPress: () => goToCreate(),
+          });
+        }
+      }
     }
   }, [data]);
 
@@ -54,7 +87,7 @@ const Bracket = () => {
   if ('Active' === data?.tournament.status) {
     statusDetail = `Round ${data.tournament.round.number}`
     if (remaining) {
-      statusDetail += ` \u2013 ${durationString(remaining)} remaining.`;
+      statusDetail += ` | ${durationString(remaining)} remaining.`;
     }
   } else if (data?.tournament.winner) {
     statusDetail = `WINNER: ${data.tournament.winner.entity.name}`;
