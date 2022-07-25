@@ -38,30 +38,46 @@ export const ROUND_FIELDS = gql`
   }
 `;
 
-export const TOURNAMENT = gql`
+const TOURNAMENT_FIELDS = gql`
   ${ROUND_FIELDS}
-  query Tournament($id: ID!) {
-    tournament(id: $id) {
-      id
-      name
-      status
-      round {
-        number
-        secondsRemaining
-      }
-      rounds {
-        ...RoundFields
-      }
-      winner {
-        entity {
-          name
-        }
-      }
-      currentUserShouldVote
-      currentUserNextTournament {
-        id
+  fragment TournamentFields on Tournament {
+    id
+    name
+    status
+    round {
+      number
+      secondsRemaining
+    }
+    rounds {
+      ...RoundFields
+    }
+    winner {
+      entity {
         name
       }
+    }
+    currentUserShouldVote
+    currentUserNextTournament {
+      id
+      name
+    }
+  }
+`;
+
+export const TOURNAMENT = gql`
+  ${TOURNAMENT_FIELDS}
+  query Tournament($id: ID!) {
+    tournament(id: $id) {
+      ...TournamentFields
+    }
+  }
+`;
+
+export const VOTABLE_TOURNAMENTS = gql`
+  ${TOURNAMENT_FIELDS}
+  query Tournaments {
+    tournaments(scopes: ["votable"]) {
+      ...TournamentFields
     }
   }
 `;
