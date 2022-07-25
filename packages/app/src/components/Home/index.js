@@ -3,7 +3,9 @@ import { View } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
-import { Text } from 'app/src/styles';
+import { useNavigate } from 'app/src/utils/routing';
+import { Header, Subtitle } from 'app/src/styles';
+import { Button } from 'app/src/elements/buttons';
 import DataState from 'app/src/components/DataState';
 
 import { TOURNAMENTS } from './queries';
@@ -15,20 +17,32 @@ const Container = styled(View)`
 `;
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const { data, ...queryStatus } = useQuery(
     TOURNAMENTS, { variables: { scopes: ['activeAndRecent'] } }
   );
 
   return (
-    <Container>
-      <DataState data={data} {...queryStatus}>
-        {data?.tournaments.map(tournament => (
-          <View key={tournament.id}>
-            <TournamentCard tournament={tournament} />
-          </View>
-        ))}
-      </DataState>
-    </Container>
+    <>
+      <Header>
+        <Button
+          label="Vote on all active contests"
+          onPress={() => navigate('/bracket/vote')}
+          wide
+        />
+        <Subtitle>Or choose a bracket below</Subtitle>
+      </Header>
+      <Container>
+        <DataState data={data} {...queryStatus}>
+          {data?.tournaments.map(tournament => (
+            <View key={tournament.id}>
+              <TournamentCard tournament={tournament} />
+            </View>
+          ))}
+        </DataState>
+      </Container>
+    </>
   );
 };
 
