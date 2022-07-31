@@ -9,6 +9,7 @@ import DataState from 'app/src/components/DataState';
 import colors from 'app/src/styles/colors';
 
 import { USER_TOURNAMENT } from './queries';
+import Competitor from './Competitor';
 import EntitySelect from './EntitySelect';
 
 const AddCompetitor = styled(View)`
@@ -39,7 +40,11 @@ const Tournament = () => {
         Competitors ({data?.currentUser.tournament.competitors.length})
       </Title>
       {data?.currentUser.tournament.competitors.map(competitor => (
-        <Text key={competitor.id}>{competitor.entity.name}</Text>
+        <Competitor
+          key={competitor.id}
+          competitor={competitor}
+          refetch={refetch}
+        />
       ))}
 
       <AddCompetitor>

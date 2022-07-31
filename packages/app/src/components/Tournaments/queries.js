@@ -67,3 +67,13 @@ export const CREATE_COMPETITOR = gql`
     }
   }
 `;
+
+export const REMOVE_COMPETITOR = gql`
+  mutation RemoveCompetitor($input: RemoveCompetitorInput!) {
+    removeCompetitor(input: $input) {
+      competitor {
+        id
+      }
+    }
+  }
+`;
