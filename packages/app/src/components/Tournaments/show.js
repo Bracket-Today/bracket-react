@@ -29,6 +29,8 @@ const Tournament = () => {
   const { data, refetch, ...queryStatus } =
     useQuery(USER_TOURNAMENT, { variables: { id } });
 
+  const tournamentStatus = data?.currentUser.tournament.status;
+
   return (
     <DataState data={data} {...queryStatus}>
       <Header>
@@ -44,19 +46,22 @@ const Tournament = () => {
           key={competitor.id}
           competitor={competitor}
           refetch={refetch}
+          tournamentStatus={tournamentStatus}
         />
       ))}
 
-      <AddCompetitor>
-        <Subtitle>Add Another</Subtitle>
-        <Hint>
-          Choose from the Autocomplete or Click the Checkbox to add.
-        </Hint>
-        <EntitySelect
-          tournament={data?.currentUser.tournament}
-          refetch={refetch}
-        />
-      </AddCompetitor>
+      {!['Closed', 'Active'].includes(tournamentStatus) && (
+        <AddCompetitor>
+          <Subtitle>Add Another</Subtitle>
+          <Hint>
+            Choose from the Autocomplete or Click the Checkbox to add.
+          </Hint>
+          <EntitySelect
+            tournament={data?.currentUser.tournament}
+            refetch={refetch}
+          />
+        </AddCompetitor>
+      )}
     </DataState>
   );
 };

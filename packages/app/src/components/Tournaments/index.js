@@ -38,9 +38,13 @@ const columns = [
     label: 'Actions',
     sort: 'prevent',
     content: ({ entry }) => (
-      <Link to={`/tournaments/${entry.id}`}>
-        <Text>Edit</Text>
-      </Link>
+      <>
+        {'Closed' !== entry.status && (
+          <Link to={`/tournaments/${entry.id}`}>
+            <Text>Edit</Text>
+          </Link>
+        )}
+      </>
     )
   }
 ];

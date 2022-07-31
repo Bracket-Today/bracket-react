@@ -21,7 +21,7 @@ const RemoveIcon = styled(Text)`
   font-size: 14px;
 `;
 
-const Competitor = ({ competitor, refetch }) => {
+const Competitor = ({ competitor, refetch, tournamentStatus }) => {
   const [removeCompetitor] = useMutation(REMOVE_COMPETITOR, {
     onCompleted: refetch
   });
@@ -35,9 +35,11 @@ const Competitor = ({ competitor, refetch }) => {
   return (
     <Container>
       <Text>{competitor.entity.name}</Text>
-      <RemoveButton onPress={() => handleRemove(competitor)}>
-        <RemoveIcon>🅇</RemoveIcon>
-      </RemoveButton>
+      {!['Closed', 'Active'].includes(tournamentStatus) && (
+        <RemoveButton onPress={() => handleRemove(competitor)}>
+          <RemoveIcon>🅇</RemoveIcon>
+        </RemoveButton>
+      )}
     </Container>
   );
 };
