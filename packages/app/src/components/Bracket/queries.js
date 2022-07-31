@@ -40,7 +40,7 @@ export const ROUND_FIELDS = gql`
 
 const TOURNAMENT_FIELDS = gql`
   ${ROUND_FIELDS}
-  fragment TournamentFields on Tournament {
+  fragment BracketTournamentFields on Tournament {
     id
     name
     status
@@ -68,7 +68,7 @@ export const TOURNAMENT = gql`
   ${TOURNAMENT_FIELDS}
   query Tournament($id: ID!) {
     tournament(id: $id) {
-      ...TournamentFields
+      ...BracketTournamentFields
     }
   }
 `;
@@ -77,7 +77,7 @@ export const VOTABLE_TOURNAMENTS = gql`
   ${TOURNAMENT_FIELDS}
   query Tournaments {
     tournaments(scopes: ["votable"]) {
-      ...TournamentFields
+      ...BracketTournamentFields
     }
   }
 `;
