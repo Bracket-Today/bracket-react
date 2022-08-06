@@ -77,7 +77,9 @@ const Tournament = () => {
 
   // TODO react-dnd is throwing "addEventListener is not a function". in native.
   // Just disable drag drop in native for now.
-  const enableDragDrop = 'web' === Platform.OS;
+  const enableDragDrop = (
+    'web' === Platform.OS && !['Active', 'Closed'].includes(tournamentStatus)
+  );
 
   return (
     <DataState data={data} {...queryStatus}>
