@@ -2,6 +2,13 @@
 
 echo 'Copying directories to node_modules from packages/mobile/node_modules'
 
+if [ -d "./node_modules/@react-native-community" ]
+then
+  echo "@react-native-community already copied"
+else
+  cp -R ./packages/mobile/node_modules/@react-native-community./node_modules/
+fi
+
 if [ -d "./node_modules/@react-native-community/picker" ]
 then
   echo "@react-native-community/picker already copied"
