@@ -49,6 +49,17 @@ export const CREATE_TOURNAMENT = gql`
   }
 `;
 
+export const UPDATE_TOURNAMENT_SEEDS = gql`
+  ${TOURNAMENT_FIELDS}
+  mutation UpdateTournamentSeeds($input: UpdateTournamentSeedsInput!) {
+    updateTournamentSeeds(input: $input) {
+      tournament {
+        ...TournamentFields
+      }
+    }
+  }
+`;
+
 export const ENTITIES = gql`
   query Entities($term: String!) {
     entities(term: $term) {
