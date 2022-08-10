@@ -6,7 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 
 import { useParams } from 'app/src/utils/routing';
-import { Header, Title, Subtitle, Text } from 'app/src/styles';
+import { Header, Title, Subtitle, Text, Notice } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import colors from 'app/src/styles/colors';
 
@@ -95,6 +95,19 @@ const Tournament = () => {
         <Title>{data?.currentUser.tournament.name}</Title>
         <Subtitle>{data?.currentUser.tournament.status}</Subtitle>
       </Header>
+
+      <Notice>
+        <Text>
+          Add a number of competitors that's a power of 2 and at least 8
+          (8, 16, 32, 64, 128, 256, Nope, you're not gonna come up with 512
+          options, so just stop) and we may make this a featured bracket. But,
+          wait, there's more! Soon, you'll be able to schedule this bracket on
+          your own, either public or through a special link you share
+          with your friends (or, whomever, doesn't have to be friends,
+          we don't judge). Check back soon--say, a couple weeks. And the powers
+          of 2 rule will also go away, but that may be more months than weeks.
+        </Text>
+      </Notice>
 
       <Title>
         Competitors ({sortedCompetitors.length})

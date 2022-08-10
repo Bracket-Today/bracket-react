@@ -1,6 +1,7 @@
 import { Text as BaseText, View } from 'react-native';
 import styled from 'styled-components/native';
 
+import colors from './colors';
 import fonts from './fonts';
 
 export const HeaderText = styled(BaseText)`
@@ -25,4 +26,13 @@ export const Subtitle = styled(HeaderText)`
   font-size: 16px;
   font-weight: 600;
   color: green;
+`;
+
+export const Notice = styled(View)`
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border-style: solid;
+  border-color: ${colors.button};
+  border-width: 2px;
+  padding: 10px;
 `;
