@@ -41,12 +41,10 @@ const Tournament = () => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (data?.currentUser.tournament) {
       setSortedCompetitors([...data.currentUser.tournament.competitors]);
     }
   }, [data]);
-
-  const tournamentStatus = data?.currentUser.tournament.status;
 
   /**
    * Update order of sortedCompetitors based on dragging.
@@ -74,6 +72,16 @@ const Tournament = () => {
       });
     }
   }, [sortedCompetitors]);
+
+  if (data?.currentUser && !data.currentUser.tournament) {
+    return (
+      <View>
+        <Text>Sorry, we couldn't find this tournament</Text>
+      </View>
+    );
+  }
+
+  const tournamentStatus = data?.currentUser.tournament.status;
 
   // TODO react-dnd is throwing "addEventListener is not a function". in native.
   // Just disable drag drop in native for now.
