@@ -46,7 +46,7 @@ const Bracket = () => {
   }, [updatedAt]);
 
   const goToTournament = tournament => {
-    navigate(`/bracket/${tournament.id}`);
+    navigate(tournament.bracketPath);
     Toast.hide();
   }
 
@@ -56,7 +56,7 @@ const Bracket = () => {
   }
 
   useEffect(() => {
-    if ('Active' === data?.tournament.status) {
+    if ('Active' === data?.tournament?.status) {
       setUpdatedAt(Date.now());
 
       if (!data.tournament.currentUserShouldVote) {
@@ -81,6 +81,19 @@ const Bracket = () => {
       }
     }
   }, [data]);
+
+  if (data && !data.tournament) {
+    Toast.show({
+      type: 'error',
+      text1: "Sorry, we couldn't find this bracket",
+      text2: 'But there are many others',
+      visibilityTime: 5000,
+    });
+
+    navigate('/');
+
+    return (<></>);
+  }
 
   let statusDetail = data?.tournament.status;
 

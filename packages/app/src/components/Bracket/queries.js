@@ -42,6 +42,7 @@ const TOURNAMENT_FIELDS = gql`
   ${ROUND_FIELDS}
   fragment BracketTournamentFields on Tournament {
     id
+    bracketPath
     name
     status
     round {

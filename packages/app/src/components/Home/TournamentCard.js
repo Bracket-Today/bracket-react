@@ -47,7 +47,7 @@ const Detail = ({ tournament, refetch }) => {
             <Contest
               key={contest.id}
               contest={contest}
-              refetch={() => navigate(`/bracket/${tournament.id}`)}
+              refetch={() => navigate(tournament.bracketPath)}
             />
           ))}
         </View>
@@ -79,7 +79,7 @@ const Detail = ({ tournament, refetch }) => {
 const TournamentCard = ({ tournament }) => {
   return (
     <Card>
-      <Link to={`/bracket/${tournament.id}`} style={{textDecoration: 'none'}}>
+      <Link to={tournament.bracketPath} style={{textDecoration: 'none'}}>
         <Name>{tournament.name}</Name>
       </Link>
       <Detail tournament={tournament} />

@@ -20,6 +20,7 @@ const Routes = () => {
       <Route exact path="/" element={<Home />} />
       <Route exact path="/bracket/vote" element={<Vote />} />
       <Route exact path="/bracket/:id" element={<Bracket />} />
+      <Route exact path="/bracket/:id/:slug" element={<Bracket />} />
       <Route exact path="/me" element={<Profile />} />
       <Route exact path="/login/:code" element={<LoginCode />} />
       <Route exact path="/ticket" element={<Ticket />} />

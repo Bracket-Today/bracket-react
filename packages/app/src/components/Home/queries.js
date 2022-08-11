@@ -11,6 +11,7 @@ export const TOURNAMENTS = gql`
       scopes: $scopes
     ) {
       id
+      bracketPath
       name
       status
       round {
