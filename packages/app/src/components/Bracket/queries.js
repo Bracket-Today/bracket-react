@@ -61,6 +61,7 @@ const TOURNAMENT_FIELDS = gql`
     currentUserNextTournament {
       id
       name
+      bracketPath
     }
   }
 `;
