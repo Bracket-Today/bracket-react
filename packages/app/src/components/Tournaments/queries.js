@@ -7,6 +7,7 @@ const TOURNAMENT_FIELDS = gql`
     status
     competitors {
       id
+      seed
       entity {
         id
         name

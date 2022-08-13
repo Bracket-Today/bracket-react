@@ -5,11 +5,18 @@ import styled from 'styled-components/native';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { Text } from 'app/src/styles';
+import colors from 'app/src/styles/colors';
 
 import { REMOVE_COMPETITOR } from './queries';
 
 const Container = styled(View)`
   flex-direction: row;
+`;
+
+const Seed = styled(Text)`
+  width: 24px;
+  color: ${colors.disabled};
+  font-weight: 800;
 `;
 
 const RemoveButton = styled(Pressable)`
@@ -90,6 +97,7 @@ const Competitor = props => {
 
   return (
     <Container ref={ref} style={{opacity}}>
+      <Seed>{competitor.seed}</Seed>
       <Text>{competitor.entity.name}</Text>
       {!['Closed', 'Active'].includes(tournamentStatus) && (
         <RemoveButton onPress={() => handleRemove(competitor)}>
