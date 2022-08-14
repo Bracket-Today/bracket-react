@@ -8,9 +8,14 @@ import { DndProvider } from 'react-dnd'
 import { useParams } from 'app/src/utils/routing';
 import { Header, Title, Subtitle, Text, Notice } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
+import { Button } from 'app/src/elements/buttons';
 import colors from 'app/src/styles/colors';
 
-import { USER_TOURNAMENT, UPDATE_TOURNAMENT_SEEDS } from './queries';
+import {
+  USER_TOURNAMENT,
+  RANDOM_TOURNAMENT_SEEDS,
+  UPDATE_TOURNAMENT_SEEDS,
+} from './queries';
 import Competitor from './Competitor';
 import EntitySelect from './EntitySelect';
 
@@ -37,6 +42,11 @@ const Tournament = () => {
     useQuery(USER_TOURNAMENT, { variables: { id } });
 
   const [updateTournamentSeeds] = useMutation(UPDATE_TOURNAMENT_SEEDS, {
+    onCompleted: refetch
+  });
+
+  const [randomTournamentSeeds] = useMutation(RANDOM_TOURNAMENT_SEEDS, {
+    variables: { input: { id } },
     onCompleted: refetch
   });
 
@@ -120,6 +130,11 @@ const Tournament = () => {
             to update the seeding.
           </Hint>
         )}
+
+        <Button
+          label="Randomize Seeding"
+          onPress={randomTournamentSeeds}
+        />
 
         {sortedCompetitors.map((competitor, index) => (
           <Competitor

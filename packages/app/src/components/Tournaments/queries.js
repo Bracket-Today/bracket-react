@@ -50,6 +50,17 @@ export const CREATE_TOURNAMENT = gql`
   }
 `;
 
+export const RANDOM_TOURNAMENT_SEEDS = gql`
+  ${TOURNAMENT_FIELDS}
+  mutation RandomTournamentSeeds($input: RandomTournamentSeedsInput!) {
+    randomTournamentSeeds(input: $input) {
+      tournament {
+        ...TournamentFields
+      }
+    }
+  }
+`;
+
 export const UPDATE_TOURNAMENT_SEEDS = gql`
   ${TOURNAMENT_FIELDS}
   mutation UpdateTournamentSeeds($input: UpdateTournamentSeedsInput!) {
