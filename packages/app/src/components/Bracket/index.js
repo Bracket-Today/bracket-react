@@ -66,7 +66,7 @@ const Bracket = () => {
             type: 'success',
             text1: 'Your votes are recorded!',
             text2: `Click to vote on ${nextTournament.name}`,
-            visibilityTime: 30000,
+            visibilityTime: 10000,
             onPress: () => goToTournament(nextTournament),
           });
         } else {
@@ -74,7 +74,7 @@ const Bracket = () => {
             type: 'success',
             text1: 'Create a bracket',
             text2: "There's nothing more to vote on.",
-            visibilityTime: 10000,
+            visibilityTime: 5000,
             onPress: () => goToCreate(),
           });
         }
