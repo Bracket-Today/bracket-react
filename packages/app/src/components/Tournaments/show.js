@@ -92,12 +92,11 @@ const Tournament = () => {
   }
 
   const tournamentStatus = data?.currentUser.tournament.status;
+  const canEditCompetitors = !['Active', 'Closed'].includes(tournamentStatus);
 
   // TODO react-dnd is throwing "addEventListener is not a function". in native.
   // Just disable drag drop in native for now.
-  const enableDragDrop = (
-    'web' === Platform.OS && !['Active', 'Closed'].includes(tournamentStatus)
-  );
+  const enableDragDrop = 'web' === Platform.OS && canEditCompetitors;
 
   return (
     <DataState data={data} {...queryStatus}>
@@ -131,10 +130,12 @@ const Tournament = () => {
           </Hint>
         )}
 
-        <Button
-          label="Randomize Seeding"
-          onPress={randomTournamentSeeds}
-        />
+        {canEditCompetitors && (
+          <Button
+            label="Randomize Seeding"
+            onPress={randomTournamentSeeds}
+          />
+        )}
 
         {sortedCompetitors.map((competitor, index) => (
           <Competitor
@@ -150,7 +151,7 @@ const Tournament = () => {
         ))}
       </DndProvider>
 
-      {!['Closed', 'Active'].includes(tournamentStatus) && (
+      {canEditCompetitors && (
         <AddCompetitor>
           <Subtitle>Add Another</Subtitle>
           <Hint>
