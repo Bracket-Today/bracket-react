@@ -6,7 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 
 import { useParams } from 'app/src/utils/routing';
-import { Header, Title, Subtitle, Text, Notice } from 'app/src/styles';
+import { Header, Title, Subtitle, Text, Notice, Hint } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import { Button } from 'app/src/elements/buttons';
 import colors from 'app/src/styles/colors';
@@ -18,16 +18,13 @@ import {
 } from './queries';
 import Competitor from './Competitor';
 import EntitySelect from './EntitySelect';
+import Visibility from './Visibility';
 
 const AddCompetitor = styled(View)`
   margin-top: 10px
   border-top-style: solid;
   border-top-color: black;
   border-top-width: 1px;
-`;
-
-const Hint = styled(Text)`
-  color: ${colors.disabled};
 `;
 
 const dndOptions = {
@@ -93,6 +90,9 @@ const Tournament = () => {
 
   const tournamentStatus = data?.currentUser.tournament.status;
   const canEditCompetitors = !['Active', 'Closed'].includes(tournamentStatus);
+  const competitorsLength = sortedCompetitors.length;
+  const canSchedule =
+    competitorsLength >= 8 && 0 === Math.log2(competitorsLength) % 1;
 
   // TODO react-dnd is throwing "addEventListener is not a function". in native.
   // Just disable drag drop in native for now.
@@ -118,8 +118,14 @@ const Tournament = () => {
         </Text>
       </Notice>
 
+      <Visibility
+        tournament={data?.currentUser.tournament}
+        canSchedule={canSchedule}
+        refetch={refetch}
+      />
+
       <Title>
-        Competitors ({sortedCompetitors.length})
+        Competitors ({competitorsLength})
       </Title>
 
       <DndProvider backend={HTML5Backend}>

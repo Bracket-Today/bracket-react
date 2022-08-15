@@ -36,3 +36,7 @@ export const Notice = styled(View)`
   border-width: 2px;
   padding: 10px;
 `;
+
+export const Hint = styled(Text)`
+  color: ${colors.disabled};
+`;

@@ -5,6 +5,7 @@ const TOURNAMENT_FIELDS = gql`
     id
     name
     status
+    visibility
     competitors {
       id
       seed
@@ -65,6 +66,19 @@ export const UPDATE_TOURNAMENT_SEEDS = gql`
   ${TOURNAMENT_FIELDS}
   mutation UpdateTournamentSeeds($input: UpdateTournamentSeedsInput!) {
     updateTournamentSeeds(input: $input) {
+      tournament {
+        ...TournamentFields
+      }
+    }
+  }
+`;
+
+export const UPDATE_TOURNAMENT_VISIBILITY = gql`
+  ${TOURNAMENT_FIELDS}
+  mutation UpdateTournamentVisibility(
+    $input: UpdateTournamentVisibilityInput!
+  ) {
+    updateTournamentVisibility(input: $input) {
       tournament {
         ...TournamentFields
       }
