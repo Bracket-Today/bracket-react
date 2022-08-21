@@ -84,6 +84,16 @@ const MenuItems = () => {
           <MenuItemText>Profile</MenuItemText>
         </Link>
       </MenuItem>
+      <MenuItem>
+        <a href="https://twitter.com/BracketToday">
+          <MenuItemText><i class="fa-brands fa-twitter"></i></MenuItemText>
+        </a>
+      </MenuItem>
+      <MenuItem>
+        <a href="https://www.instagram.com/bracket.today/">
+          <MenuItemText><i class="fa-brands fa-instagram"></i></MenuItemText>
+        </a>
+      </MenuItem>
     </>
   );
 }
