@@ -107,9 +107,12 @@ export const ClientProvider = ({ children }) => {
 
   useEffect(() => {
     if (client) {
-      client.query({ query: CURRENT_USER }).then(({ data }) => (
+      client.query({ query: CURRENT_USER }).then(({ data }) => {
         setCurrentUser(data.currentUser)
-      ));
+        if (!data.currentUser) {
+          setCredentials(null);
+        }
+      });
     }
   }, [client]);
 
@@ -132,7 +135,6 @@ export const ClientProvider = ({ children }) => {
     client,
     currentUser,
     updateCredentials,
-    generateUuid,
     updateUuid,
     isLoggedIn: !!credentials?.accessToken,
   };

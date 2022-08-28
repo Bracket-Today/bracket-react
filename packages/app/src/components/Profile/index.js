@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { View } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
@@ -7,6 +8,7 @@ import DataState from 'app/src/components/DataState';
 import ClientContext from 'app/src/contexts/ClientContext';
 
 import Login from './Login';
+import Logout from './Logout';
 
 const BoldText = styled(Text)`
   font-weight: 800;
@@ -35,7 +37,7 @@ const Profile = () => {
       )}
 
       {isLoggedIn ? (
-        <></>
+        <Logout />
       ) : (
         <>
           <Login />

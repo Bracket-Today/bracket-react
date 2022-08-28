@@ -55,3 +55,13 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const LOGOUT = gql`
+  mutation UserLogout {
+    userLogout {
+      authenticatable {
+        id
+      }
+    }
+  }
+`;
