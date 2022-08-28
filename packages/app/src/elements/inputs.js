@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components/native';
 import { Controller } from 'react-hook-form';
 
@@ -20,7 +20,7 @@ const Field = styled(View)`
   marginBottom: 10px;
 `;
 
-export const TextInput = props => {
+export const TextInput = forwardRef((props, ref) => {
   const {
     label,
     control,
@@ -48,6 +48,7 @@ export const TextInput = props => {
         render={({ field }) => (
           <StyledTextInput
             {...field}
+            ref={ref}
             secureTextEntry={secureTextEntry}
             placeholder={placeholder}
             onChangeText={field.onChange}
@@ -56,7 +57,7 @@ export const TextInput = props => {
       />
     </Field>
   );
-};
+});
 
 const Input = {
   Text: TextInput,

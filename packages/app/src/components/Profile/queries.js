@@ -39,6 +39,16 @@ export const LOGIN_CODE = gql`
   }
 `;
 
+export const REGISTER_USER = gql`
+  mutation RegisterUser($input: RegisterUserInput!) {
+    registerUser(input: $input) {
+      authenticatable {
+        id
+      }
+    }
+  }
+`;
+
 export const LOGIN = gql`
   ${CREDENTIAL_FIELDS}
   mutation UserLogin(

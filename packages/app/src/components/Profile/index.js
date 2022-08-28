@@ -9,6 +9,7 @@ import ClientContext from 'app/src/contexts/ClientContext';
 
 import Login from './Login';
 import Logout from './Logout';
+import Register from './Register';
 
 const BoldText = styled(Text)`
   font-weight: 800;
@@ -31,7 +32,7 @@ const Profile = () => {
           </BoldText>
           <Text>
             Use the link above to sign in on another device or save to ensure you
-            can login later.
+            can login later, or register below to login with your email.
           </Text>
         </>
       )}
@@ -41,6 +42,7 @@ const Profile = () => {
       ) : (
         <>
           <Login />
+          <Register />
         </>
       )}
     </DataState>
