@@ -86,12 +86,12 @@ const MenuItems = () => {
       </MenuItem>
       <MenuItem>
         <a href="https://twitter.com/BracketToday">
-          <MenuItemText><i class="fa-brands fa-twitter"></i></MenuItemText>
+          <MenuItemText><i className="fa-brands fa-twitter"></i></MenuItemText>
         </a>
       </MenuItem>
       <MenuItem>
         <a href="https://www.instagram.com/bracket.today/">
-          <MenuItemText><i class="fa-brands fa-instagram"></i></MenuItemText>
+          <MenuItemText><i className="fa-brands fa-instagram"></i></MenuItemText>
         </a>
       </MenuItem>
     </>
