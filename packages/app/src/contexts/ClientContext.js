@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useCallback, useEffect } from 'react';
 import {
   ApolloClient,
   ApolloLink,
@@ -12,15 +12,27 @@ import { v4 as uuidv4 } from 'uuid';
 import config from 'app/src/config';
 import storage from 'app/src/utils/storage';
 import { sendError } from 'app/src/components/ErrorBoundary';
+import { CURRENT_USER } from 'app/src/components/Profile/queries';
 
 const IGNORE_ERRORS = ['USER_ERROR', 'NOT_FOUND'];
 
 export const ClientContext = createContext();
 
-const setupApolloClient = uuid => {
+const setupApolloClient = ({ credentials, uuid }) => {
+  let headers = {};
+
+  if (credentials) {
+    headers = {
+      ...credentials,
+      'access-token': credentials.accessToken,
+    };
+  } else if (uuid) {
+    headers['X-UUID'] = uuid;
+  }
+
   const httpLink = new HttpLink({
+    headers,
     uri: config.api.uri,
-    headers: { 'X-UUID': uuid },
   });
 
   const errorLink = onError(({ graphQLErrors }) => {
@@ -63,34 +75,67 @@ const setupApolloClient = uuid => {
 
 export const ClientProvider = ({ children }) => {
   const [client, setClient] = useState();
+  const [credentials, setCredentials] = useState();
   const [uuid, setUuid] = useState();
+  const [currentUser, setCurrentUser] = useState();
 
-  /* Get UUID for identifying user, generate if needed. */
+  /* Generate a UUID, save to storage and set uuid */
+  const generateUuid = useCallback(() => {
+    const generatedUuid = uuidv4();
+    storage.save({ key: 'auth', data: { uuid: generatedUuid } });
+    setUuid(generatedUuid);
+  }, []);
+
+  /* Get Token or UUID for identifying user; generate UUID if needed. */
   useEffect(() => {
     storage.load({ key: 'auth' }).then(authData => {
-      if (authData.uuid) {
+      if (authData.credentials || authData.uuid) {
+        setCredentials(authData.credentials);
         setUuid(authData.uuid);
       } else {
-        const generatedUuid = uuidv4();
-        storage.save({ key: 'auth', data: { uuid: generatedUuid } });
-        setUuid(generatedUuid);
+        generateUuid();
       }
     });
   }, []);
 
-  /* Setup apollo client once uuid is available */
+  /* Setup apollo client once credentials or uuid is available */
   useEffect(() => {
-    if (uuid) {
-      setClient(setupApolloClient(uuid));
+    if (credentials || uuid) {
+      setClient(setupApolloClient({ credentials, uuid }));
     }
-  }, [uuid]);
+  }, [credentials, uuid]);
+
+  useEffect(() => {
+    if (client) {
+      client.query({ query: CURRENT_USER }).then(({ data }) => (
+        setCurrentUser(data.currentUser)
+      ));
+    }
+  }, [client]);
+
+  const updateCredentials = value => {
+    const data = { uuid, credentials: value };
+
+    storage.save({ key: 'auth', data }).then(() => {
+      if (credentials?.accessToken !== value?.accessToken) {
+        setCredentials(value);
+      }
+    });
+  };
 
   const updateUuid = value => {
-    storage.save({ key: 'auth', data: { uuid: value } }).
+    storage.save({ key: 'auth', data: { credentials, uuid: value } }).
       then(() => setUuid(value));
   };
 
-  const value = { client, updateUuid };
+  const value = {
+    client,
+    currentUser,
+    updateCredentials,
+    generateUuid,
+    updateUuid,
+    isLoggedIn: !!credentials?.accessToken,
+  };
 
   return (
     <ClientContext.Provider value={value}>

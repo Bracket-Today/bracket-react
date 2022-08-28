@@ -21,20 +21,34 @@ const Field = styled(View)`
 `;
 
 export const TextInput = props => {
-  const { label, control, errors, placeholder, ...controlerProps } = props;
+  const {
+    label,
+    control,
+    errors,
+    placeholder,
+    secureTextEntry,
+    ...controllerProps
+  } = props;
+
+  let errorMessage;
+
+  if (errors?.[props.name]) {
+    errorMessage = errors[props.name].message || 'Required';
+  }
 
   return (
     <Field>
       <View style={{flexDirection: 'row'}}>
         <Text>{label}</Text>
-        {errors?.[props.name] && <ErrorText>Required.</ErrorText>}
+        {errorMessage && <ErrorText>{errorMessage}.</ErrorText>}
       </View>
       <Controller
-        {...props}
+        {...controllerProps}
         control={control}
         render={({ field }) => (
           <StyledTextInput
             {...field}
+            secureTextEntry={secureTextEntry}
             placeholder={placeholder}
             onChangeText={field.onChange}
           />

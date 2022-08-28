@@ -37,6 +37,14 @@ export const Notice = styled(View)`
   padding: 10px;
 `;
 
+export const Warning = styled(Notice)`
+  border-color: red;
+`;
+
+export const WarningText = styled(Text)`
+  font-weight: 800;
+`;
+
 export const Hint = styled(Text)`
   color: ${colors.disabled};
 `;
