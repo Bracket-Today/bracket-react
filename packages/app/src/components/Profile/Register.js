@@ -3,23 +3,15 @@ import { View } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
-import styled from 'styled-components/native';
 
-import { Subtitle, Text } from 'app/src/styles';
+import { Text, Warning, WarningText } from 'app/src/styles';
+import DataState from 'app/src/components/DataState';
 import Input from 'app/src/elements/inputs';
 import { Button } from 'app/src/elements/buttons';
 
 import { REGISTER_USER } from './queries';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const Container = styled(View)`
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top-style: solid;
-  border-top-color: black;
-  border-top-width: 1px;
-`;
 
 const Register = () => {
   const [submitting, setSubmitting] = useState();
@@ -41,7 +33,7 @@ const Register = () => {
   const password = useRef({});
   password.current = watch('password', '');
 
-  const [registerUser] = useMutation(REGISTER_USER, {
+  const [registerUser, { error }] = useMutation(REGISTER_USER, {
     onCompleted: () => {
       setSubmitting(
         'Check your email for instructions to complete your registration'
@@ -53,15 +45,18 @@ const Register = () => {
         text2: 'for confirmation instructions',
         visibilityTime: 15000,
       });
+    },
+    onError: () => {
+      setSubmitting(false);
     }
   });
 
   const onSubmit = data => {
     registerUser({ variables: { input: data } });
-    setSubmitting('Submitting...');
+    setSubmitting(true);
   };
 
-  if (submitting) {
+  if ('string' === typeof submitting) {
     return (
       <View>
         <Text>{submitting}</Text>
@@ -70,8 +65,12 @@ const Register = () => {
   }
 
   return (
-    <Container>
-      <Subtitle>Register</Subtitle>
+    <DataState loading={submitting}>
+      {error && (
+        <Warning>
+          <WarningText>{error.message}</WarningText>
+        </Warning>
+      )}
       <Input.Text
         label="Email"
         name="email"
@@ -109,8 +108,8 @@ const Register = () => {
         errors={errors}
       />
 
-      <Button label="Submit" onPress={handleSubmit(onSubmit)} wide />
-    </Container>
+      <Button label="Register" onPress={handleSubmit(onSubmit)} wide />
+    </DataState>
   );
 };
 

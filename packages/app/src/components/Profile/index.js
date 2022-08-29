@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { View } from 'react-native';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
 import { Header, Title, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import ClientContext from 'app/src/contexts/ClientContext';
+import Tabs from 'app/src/elements/Tabs';
 
 import Login from './Login';
 import Logout from './Logout';
@@ -14,6 +14,11 @@ import Register from './Register';
 const BoldText = styled(Text)`
   font-weight: 800;
 `;
+
+const LOGIN_TABS = [
+  { key: 'register', label: 'Register', component: <Register /> },
+  { key: 'login', label: 'Login', component: <Login /> },
+];
 
 const Profile = () => {
   const { currentUser, isLoggedIn } = useContext(ClientContext);
@@ -37,14 +42,7 @@ const Profile = () => {
         </>
       )}
 
-      {isLoggedIn ? (
-        <Logout />
-      ) : (
-        <>
-          <Login />
-          <Register />
-        </>
-      )}
+      {isLoggedIn ?  <Logout /> : <Tabs tabs={LOGIN_TABS} />}
     </DataState>
   );
 };
