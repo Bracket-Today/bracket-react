@@ -49,6 +49,17 @@ export const REGISTER_USER = gql`
   }
 `;
 
+export const CONFIRM_REGISTRATION = gql`
+  ${CREDENTIAL_FIELDS}
+  mutation UserConfirmRegistrationWithToken($confirmationToken: String!) {
+    userConfirmRegistrationWithToken(confirmationToken: $confirmationToken) {
+      credentials {
+        ...CredentialFields
+      }
+    }
+  }
+`;
+
 export const LOGIN = gql`
   ${CREDENTIAL_FIELDS}
   mutation UserLogin(

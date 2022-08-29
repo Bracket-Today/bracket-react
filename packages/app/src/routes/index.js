@@ -9,6 +9,7 @@ import Home from 'app/src/components/Home';
 import Vote from 'app/src/components/Bracket/Vote';
 import Bracket from 'app/src/components/Bracket';
 import Profile from 'app/src/components/Profile';
+import ConfirmUser from 'app/src/components/Profile/Confirm';
 import LoginCode from 'app/src/components/Profile/LoginCode';
 import Ticket from 'app/src/components/Ticket';
 import Tournaments from 'app/src/components/Tournaments';
@@ -22,6 +23,7 @@ const Routes = () => {
       <Route exact path="/bracket/:id" element={<Bracket />} />
       <Route exact path="/bracket/:id/:slug" element={<Bracket />} />
       <Route exact path="/me" element={<Profile />} />
+      <Route exact path="/me/confirm" element={<ConfirmUser />} />
       <Route exact path="/login/:code" element={<LoginCode />} />
       <Route exact path="/ticket" element={<Ticket />} />
       <Route exact path="/tournaments" element={<Tournaments />} />

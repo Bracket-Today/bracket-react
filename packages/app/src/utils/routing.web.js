@@ -6,6 +6,7 @@ export {
   Route,
   useNavigate,
   useParams,
+  useSearchParams,
 } from 'react-router-dom';
 
 export const Link = ({ style, children, ...props }) => {
