@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Pressable } from 'react-native';
+import { View, Pressable, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import MediaQuery from 'react-native-web-responsive';
 
@@ -84,16 +84,24 @@ const MenuItems = () => {
           <MenuItemText>Profile</MenuItemText>
         </Link>
       </MenuItem>
-      <MenuItem>
-        <a href="https://twitter.com/BracketToday">
-          <MenuItemText><i className="fa-brands fa-twitter"></i></MenuItemText>
-        </a>
-      </MenuItem>
-      <MenuItem>
-        <a href="https://www.instagram.com/bracket.today/">
-          <MenuItemText><i className="fa-brands fa-instagram"></i></MenuItemText>
-        </a>
-      </MenuItem>
+      {'web' === Platform.OS && (
+        <>
+          <MenuItem>
+            <a href="https://twitter.com/BracketToday">
+              <MenuItemText>
+                <i className="fa-brands fa-twitter"></i>
+              </MenuItemText>
+            </a>
+          </MenuItem>
+          <MenuItem>
+            <a href="https://www.instagram.com/bracket.today/">
+              <MenuItemText>
+                <i className="fa-brands fa-instagram"></i>
+              </MenuItemText>
+            </a>
+          </MenuItem>
+        </>
+      )}
     </>
   );
 }
