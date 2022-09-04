@@ -9,6 +9,7 @@ import { useParams } from 'app/src/utils/routing';
 import { Header, Title, Subtitle, Text, Notice, Hint } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import { Button } from 'app/src/elements/buttons';
+import Confirm from 'app/src/elements/Confirm';
 import colors from 'app/src/styles/colors';
 
 import {
@@ -34,6 +35,7 @@ const dndOptions = {
 const Tournament = () => {
   const { id } = useParams();
   const [sortedCompetitors, setSortedCompetitors] = useState([]);
+  const [showRandomizeConfirm, setShowRandomizeConfirm] = useState(false);
 
   const { data, refetch, ...queryStatus } =
     useQuery(USER_TOURNAMENT, { variables: { id } });
@@ -44,7 +46,10 @@ const Tournament = () => {
 
   const [randomTournamentSeeds] = useMutation(RANDOM_TOURNAMENT_SEEDS, {
     variables: { input: { id } },
-    onCompleted: refetch
+    onCompleted: () => {
+      refetch();
+      setShowRandomizeConfirm(false);
+    }
   });
 
   useEffect(() => {
@@ -139,7 +144,7 @@ const Tournament = () => {
         {canEditCompetitors && (
           <Button
             label="Randomize Seeding"
-            onPress={randomTournamentSeeds}
+            onPress={() => setShowRandomizeConfirm(true)}
           />
         )}
 
@@ -169,6 +174,14 @@ const Tournament = () => {
           />
         </AddCompetitor>
       )}
+
+      <Confirm
+        title="Randomize Seeding"
+        message="Are you sure you want to randomize the seeding order?"
+        show={showRandomizeConfirm}
+        setShow={setShowRandomizeConfirm}
+        onConfirm={randomTournamentSeeds}
+      />
     </DataState>
   );
 };
