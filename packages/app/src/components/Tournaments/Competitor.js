@@ -14,7 +14,7 @@ const Container = styled(View)`
 `;
 
 const Seed = styled(Text)`
-  width: 24px;
+  width: 32px;
   color: ${colors.disabled};
   font-weight: 800;
 `;
