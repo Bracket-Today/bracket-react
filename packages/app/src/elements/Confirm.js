@@ -13,7 +13,11 @@ const styles = {
   }
 };
 
-const Confirm = ({ title, message, show, setShow, onConfirm }) => {
+const Confirm = props => {
+  const {
+    title, message, show, setShow, onConfirm, dangerous, ...alertProps
+  } = props;
+
   if (!show) { return null; }
 
   return (
@@ -29,7 +33,7 @@ const Confirm = ({ title, message, show, setShow, onConfirm }) => {
       contentContainerStyle={styles.contentContainer}
       overlayStyle={styles.overlay}
       cancelButtonColor={colors.disabled}
-      confirmButtonColor={colors.button}
+      confirmButtonColor={dangerous ? colors.danger : colors.button}
     />
   );
 };

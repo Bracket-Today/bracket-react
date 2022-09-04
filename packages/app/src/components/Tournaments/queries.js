@@ -51,6 +51,14 @@ export const CREATE_TOURNAMENT = gql`
   }
 `;
 
+export const DELETE_TOURNAMENT = gql`
+  mutation DeleteTournament($input: DeleteTournamentInput!) {
+    deleteTournament(input: $input) {
+      errors { path, message }
+    }
+  }
+`;
+
 export const RANDOM_TOURNAMENT_SEEDS = gql`
   ${TOURNAMENT_FIELDS}
   mutation RandomTournamentSeeds($input: RandomTournamentSeedsInput!) {

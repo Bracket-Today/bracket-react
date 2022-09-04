@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 
-import { useParams } from 'app/src/utils/routing';
+import { useNavigate, useParams } from 'app/src/utils/routing';
 import { Header, Title, Subtitle, Text, Notice, Hint } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import { Button } from 'app/src/elements/buttons';
@@ -14,6 +14,7 @@ import colors from 'app/src/styles/colors';
 
 import {
   USER_TOURNAMENT,
+  DELETE_TOURNAMENT,
   RANDOM_TOURNAMENT_SEEDS,
   UPDATE_TOURNAMENT_SEEDS,
 } from './queries';
@@ -28,20 +29,35 @@ const AddCompetitor = styled(View)`
   border-top-width: 1px;
 `;
 
+const Subheader = styled(View)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const dndOptions = {
   enableMouseEvents: true
 };
 
 const Tournament = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [sortedCompetitors, setSortedCompetitors] = useState([]);
   const [showRandomizeConfirm, setShowRandomizeConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const { data, refetch, ...queryStatus } =
     useQuery(USER_TOURNAMENT, { variables: { id } });
 
   const [updateTournamentSeeds] = useMutation(UPDATE_TOURNAMENT_SEEDS, {
     onCompleted: refetch
+  });
+
+  const [deleteTournament] = useMutation(DELETE_TOURNAMENT, {
+    variables: { input: { id } },
+    onCompleted: () => {
+      navigate('/tournaments');
+    }
   });
 
   const [randomTournamentSeeds] = useMutation(RANDOM_TOURNAMENT_SEEDS, {
@@ -107,27 +123,42 @@ const Tournament = () => {
     <DataState data={data} {...queryStatus}>
       <Header>
         <Title>{data?.currentUser.tournament.name}</Title>
-        <Subtitle>{data?.currentUser.tournament.status}</Subtitle>
+        <Subheader>
+          <Subtitle>{data?.currentUser.tournament.status}</Subtitle>
+          {canEditCompetitors && (
+            <Button
+              label="Delete"
+              onPress={() => setShowDeleteConfirm(true)}
+              dangerous
+              inline
+            />
+          )}
+        </Subheader>
       </Header>
 
-      <Notice>
-        <Text>
-          Add a number of competitors that's a power of 2 and at least 8
-          (8, 16, 32, 64, 128, 256, Nope, you're not gonna come up with 512
-          options, so just stop) and we may make this a featured bracket. But,
-          wait, there's more! Soon, you'll be able to schedule this bracket on
-          your own, either public or through a special link you share
-          with your friends (or, whomever, doesn't have to be friends,
-          we don't judge). Check back soon--say, a couple weeks. And the powers
-          of 2 rule will also go away, but that may be more months than weeks.
-        </Text>
-      </Notice>
+      {canEditCompetitors && (
+        <>
+          <Notice>
+            <Text>
+              Add a number of competitors that's a power of 2 and at least 8
+              (8, 16, 32, 64, 128, 256, Nope, you're not gonna come up with 512
+              options, so just stop) and we may make this a featured bracket.
+              But, wait, there's more! Soon, you'll be able to schedule
+              this bracket on your own, either public or through a special
+              link you share with your friends (or, whomever, doesn't
+              have to be friends, we don't judge). Check back soon--say,
+              a couple weeks. And the powers of 2 rule will also go away,
+              but that may be more months than weeks.
+            </Text>
+          </Notice>
 
-      <Visibility
-        tournament={data?.currentUser.tournament}
-        canSchedule={canSchedule}
-        refetch={refetch}
-      />
+          <Visibility
+            tournament={data?.currentUser.tournament}
+            canSchedule={canSchedule}
+            refetch={refetch}
+          />
+        </>
+      )}
 
       <Title>
         Competitors ({competitorsLength})
@@ -181,6 +212,15 @@ const Tournament = () => {
         show={showRandomizeConfirm}
         setShow={setShowRandomizeConfirm}
         onConfirm={randomTournamentSeeds}
+      />
+
+      <Confirm
+        title="Delete Tournament"
+        message="Are you sure you want to delete this tournament?"
+        show={showDeleteConfirm}
+        setShow={setShowDeleteConfirm}
+        onConfirm={deleteTournament}
+        dangerous
       />
     </DataState>
   );

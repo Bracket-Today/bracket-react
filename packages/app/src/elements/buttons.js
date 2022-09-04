@@ -12,7 +12,7 @@ const CONTAINER_STYLES = `
   width: 200px;
   padding: 6px;
   border-radius: 6px;
-  text-align: center;
+  align-items: center;
   margin-top: 10px;
   margin-bottom: 10px;
 `;
@@ -33,18 +33,27 @@ const ButtonText = styled(HeaderText)`
   text-decoration-line: none;
 `;
 
-export const Button = ({ to, label, ...props }) => {
-  props.style ||= {}
+export const Button = ({ to, label, dangerous, inline, wide, ...props }) => {
+  props.style ||= {};
+  const textStyle = {};
 
   if ('Cancel' === props.type) {
     props.style.backgroundColor ||= '#505050';
+  } else if (dangerous) {
+    props.style.backgroundColor ||= colors.danger;
   }
 
-  if (props.wide) {
+  if (inline) {
+    props.style.marginTop = 0;
+    props.style.maringBottom = 0;
+    textStyle.fontSize = 14;
+  }
+
+  if (wide) {
     props.style.width = '100%';
   }
 
-  const content = <ButtonText>{label}</ButtonText>;
+  const content = <ButtonText style={textStyle}>{label}</ButtonText>;
 
   if (to) {
     return (
