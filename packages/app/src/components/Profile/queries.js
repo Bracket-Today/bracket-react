@@ -14,6 +14,7 @@ export const USER_FIELDS = gql`
   fragment UserFields on User {
     id
     loginCode
+    username
   }
 `;
 
@@ -83,6 +84,18 @@ export const LOGOUT = gql`
       authenticatable {
         id
       }
+    }
+  }
+`;
+
+export const UPDATE_CURRENT_USER = gql`
+  ${USER_FIELDS}
+  mutation UpdateCurrentUser($input: UpdateCurrentUserInput!) {
+    updateCurrentUser(input: $input) {
+      user {
+        ...UserFields
+      }
+      errors { path, message }
     }
   }
 `;

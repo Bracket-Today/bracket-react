@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { View } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 
-import { Text, Warning, WarningText } from 'app/src/styles';
+import { Warning, WarningText } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import ClientContext from 'app/src/contexts/ClientContext';
 import Input from 'app/src/elements/inputs';

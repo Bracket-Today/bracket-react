@@ -1,12 +1,13 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 
+import { Warning, WarningText } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
 import { useNavigate } from 'app/src/utils/routing';
 
 import { ErrorMessage } from './ErrorBoundary';
 
-const DataState = ({ data, loading, error, children }) => {
+const DataState = ({ data, loading, error, userErrors, children }) => {
   const navigate = useNavigate();
 
   if (loading && !data) {
@@ -23,7 +24,22 @@ const DataState = ({ data, loading, error, children }) => {
     return <ErrorMessage message={message} />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {userErrors && userErrors.length > 0 && (
+        <Warning>
+          {userErrors.map(error => (
+            <WarningText key={error}>
+              {error.path[error.path.length - 1]}
+              {' '}
+              {error.message}
+            </WarningText>
+          ))}
+        </Warning>
+      )}
+      {children}
+    </>
+  );
 };
 
 export default DataState;

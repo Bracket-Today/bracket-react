@@ -131,9 +131,16 @@ export const ClientProvider = ({ children }) => {
       then(() => setUuid(value));
   };
 
+  const refetchCurrentUser = useCallback(() => {
+    client.query({ query: CURRENT_USER }).then(({ data }) => {
+      setCurrentUser(data.currentUser)
+    });
+  }, [client]);
+
   const value = {
     client,
     currentUser,
+    refetchCurrentUser,
     updateCredentials,
     updateUuid,
     isLoggedIn: !!credentials?.accessToken,

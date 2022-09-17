@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -35,7 +35,12 @@ const LabelText = styled(Subtitle)`
 
 const Tabs = ({ tabs }) => {
   const [selected, setSelected] = useState(tabs[0]);
-  console.log(selected.key);
+
+  useEffect(() => {
+    if (!tabs.map(({ key }) => key).includes(selected.key)) {
+      setSelected(tabs[0]);
+    }
+  }, [tabs]);
 
   return (
     <Container>

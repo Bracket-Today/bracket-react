@@ -7,6 +7,7 @@ import DataState from 'app/src/components/DataState';
 import ClientContext from 'app/src/contexts/ClientContext';
 import Tabs from 'app/src/elements/Tabs';
 
+import Edit from './Edit';
 import Login from './Login';
 import Logout from './Logout';
 import Register from './Register';
@@ -18,6 +19,11 @@ const BoldText = styled(Text)`
 const LOGIN_TABS = [
   { key: 'register', label: 'Register', component: <Register /> },
   { key: 'login', label: 'Login', component: <Login /> },
+];
+
+const PROFILE_TABS = [
+  { key: 'edit', label: 'Update Profile', component: <Edit /> },
+  { key: 'logout', label: 'Logout', component: <Logout /> },
 ];
 
 const Profile = () => {
@@ -42,7 +48,7 @@ const Profile = () => {
         </>
       )}
 
-      {isLoggedIn ?  <Logout /> : <Tabs tabs={LOGIN_TABS} />}
+      <Tabs tabs={isLoggedIn ? PROFILE_TABS : LOGIN_TABS} />
     </DataState>
   );
 };
