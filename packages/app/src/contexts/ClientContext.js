@@ -1,4 +1,5 @@
 import React, { createContext, useState, useCallback, useEffect } from 'react';
+import { Platform } from 'react-native';
 import {
   ApolloClient,
   ApolloLink,
@@ -92,6 +93,11 @@ export const ClientProvider = ({ children }) => {
       if (authData.credentials || authData.uuid) {
         setCredentials(authData.credentials);
         setUuid(authData.uuid);
+      } else if (
+        'web' === Platform.OS && 'bracket.today' === window.location.hostname
+      ) {
+        // Redirect to www if web and is bracket.today (i.e. prod and not www)
+        window.location.href = 'https://www.bracket.today';
       } else {
         generateUuid();
       }
