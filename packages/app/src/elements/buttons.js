@@ -39,6 +39,7 @@ export const Button = ({ to, label, dangerous, inline, wide, ...props }) => {
 
   if ('Cancel' === props.type) {
     props.style.backgroundColor ||= '#505050';
+    label ||= 'Cancel';
   } else if (dangerous) {
     props.style.backgroundColor ||= colors.danger;
   }

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Pressable } from 'react-native';
 import { useMutation } from '@apollo/client';
 import styled from 'styled-components/native';
@@ -6,6 +6,8 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import { Text } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
+
+import EditCompetitor from 'app/src/components/Competitors/Edit';
 
 import { REMOVE_COMPETITOR } from './queries';
 
@@ -19,8 +21,14 @@ const Seed = styled(Text)`
   font-weight: 800;
 `;
 
-const RemoveButton = styled(Pressable)`
+const EditButton = styled(Pressable)`
   margin-left: 6px;
+`;
+
+const EditIcon = styled(Text)`
+  color: orange;
+  font-weight: 900;
+  font-size: 14px;
 `;
 
 const RemoveIcon = styled(Text)`
@@ -42,6 +50,7 @@ const Competitor = props => {
     enableDragDrop,
   } = props;
 
+  const [showEdit, setShowEdit] = useState(false);
   const ref = useRef(null);
 
   const [, drop] = useDrop({
@@ -100,9 +109,20 @@ const Competitor = props => {
       <Seed>{competitor.seed}</Seed>
       <Text>{competitor.entity.name}</Text>
       {!['Closed', 'Active'].includes(tournamentStatus) && (
-        <RemoveButton onPress={() => handleRemove(competitor)}>
-          <RemoveIcon>🅇</RemoveIcon>
-        </RemoveButton>
+        <>
+          <EditButton onPress={() => setShowEdit(true)}>
+            <EditIcon>✎</EditIcon>
+          </EditButton>
+          <EditButton onPress={() => handleRemove(competitor)}>
+            <RemoveIcon>🅇</RemoveIcon>
+          </EditButton>
+        </>
+      )}
+      {showEdit && (
+        <EditCompetitor
+          competitor={competitor}
+          handleHide={() => setShowEdit(false)}
+        />
       )}
     </Container>
   );
