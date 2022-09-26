@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import { Helmet } from 'react-helmet';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 import Toast from 'react-native-toast-message';
@@ -108,6 +109,9 @@ const Bracket = () => {
 
   return (
     <DataState data={data} {...queryStatus}>
+      <Helmet>
+        <title>{data?.tournament.name}</title>
+      </Helmet>
       <Header>
         <Title>{data?.tournament.name}</Title>
         <Subtitle>

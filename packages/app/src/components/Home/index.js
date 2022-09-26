@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { Helmet } from 'react-helmet';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components/native';
 
@@ -25,6 +26,9 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>bracket.today</title>
+      </Helmet>
       <Header>
         <Button
           label="Vote on all active contests"
