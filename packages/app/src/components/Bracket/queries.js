@@ -10,30 +10,37 @@ const COMPETITOR_FIELDS = gql`
   }
 `;
 
-export const ROUND_FIELDS = gql`
+export const CONTEST_FIELDS = gql`
   ${COMPETITOR_FIELDS}
+  fragment ContestFields on Contest {
+    id
+    round
+    sort
+    isActive
+    upper {
+      ...CompetitorFields
+    }
+    lower {
+      ...CompetitorFields
+    }
+    winner {
+      ...CompetitorFields
+    }
+    currentUserVote {
+      ...CompetitorFields
+    }
+    upperPriorScore
+    lowerPriorScore
+  }
+`;
+
+export const ROUND_FIELDS = gql`
+  ${CONTEST_FIELDS}
   fragment RoundFields on Round {
     number
     multiplier
     contests {
-      id
-      round
-      sort
-      isActive
-      upper {
-        ...CompetitorFields
-      }
-      lower {
-        ...CompetitorFields
-      }
-      winner {
-        ...CompetitorFields
-      }
-      currentUserVote {
-        ...CompetitorFields
-      }
-      upperPriorScore
-      lowerPriorScore
+      ...ContestFields
     }
   }
 `;

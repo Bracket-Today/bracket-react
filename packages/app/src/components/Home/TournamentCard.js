@@ -41,9 +41,9 @@ const Detail = ({ tournament, refetch }) => {
   if ('Active' === tournament.status) {
     return (
       <>
-        <Text>Round {tournament.round.number}</Text>
+        <Text>Round {tournament.currentRoundByTime}</Text>
         <View>
-          {tournament.round.contests.slice(0, 2).map(contest => (
+          {tournament.summaryContests.map(contest => (
             <Contest
               key={contest.id}
               contest={contest}
@@ -58,7 +58,7 @@ const Detail = ({ tournament, refetch }) => {
       <>
         <Section>
           <Highlight>
-            Winner: {tournament.round.contests[0].winner.entity.name}
+            Winner: {tournament.summaryContests[0].winner.entity.name}
           </Highlight>
         </Section>
         <Section>

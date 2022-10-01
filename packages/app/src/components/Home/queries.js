@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
 
-import { ROUND_FIELDS } from 'app/src/components/Bracket/queries';
+import { CONTEST_FIELDS } from 'app/src/components/Bracket/queries';
 
 export const TOURNAMENTS = gql`
-  ${ROUND_FIELDS}
+  ${CONTEST_FIELDS}
   query Tournaments(
     $scopes: [String!]
   ) {
@@ -14,8 +14,9 @@ export const TOURNAMENTS = gql`
       bracketPath
       name
       status
-      round {
-        ...RoundFields
+      currentRoundByTime
+      summaryContests {
+        ...ContestFields
       }
       votersCount
       votesCount
