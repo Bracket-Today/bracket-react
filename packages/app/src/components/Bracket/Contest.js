@@ -25,6 +25,12 @@ const Lower = styled(Upper)`
   border-right-color: black;
 `;
 
+const NoLower = styled(Lower)`
+  min-height: 30px;
+  border-right-style: none;
+  border-bottom-style: none;
+`;
+
 const Contest = ({ contest, refetch }) => {
   return (
     <Container>
@@ -36,14 +42,18 @@ const Contest = ({ contest, refetch }) => {
           refetch={refetch}
         />
       </Upper>
-      <Lower>
-        <Competitor
-          competitor={contest.lower}
-          contest={contest}
-          priorScore={contest.lowerPriorScore}
-          refetch={refetch}
-        />
-      </Lower>
+      {(contest.round > 1 || contest.lower) ? (
+        <Lower>
+          <Competitor
+            competitor={contest.lower}
+            contest={contest}
+            priorScore={contest.lowerPriorScore}
+            refetch={refetch}
+          />
+        </Lower>
+      ) : (
+        <NoLower />
+      )}
     </Container>
   );
 };
