@@ -112,8 +112,7 @@ const Tournament = () => {
   const tournamentStatus = data?.currentUser.tournament.status;
   const canEditCompetitors = !['Active', 'Closed'].includes(tournamentStatus);
   const competitorsLength = sortedCompetitors.length;
-  const canSchedule =
-    competitorsLength >= 8 && 0 === Math.log2(competitorsLength) % 1;
+  const canSchedule = competitorsLength >= 8;
 
   // TODO react-dnd is throwing "addEventListener is not a function". in native.
   // Just disable drag drop in native for now.
@@ -140,15 +139,11 @@ const Tournament = () => {
         <>
           <Notice>
             <Text>
-              Add a number of competitors that's a power of 2 and at least 8
-              (8, 16, 32, 64, 128, 256, Nope, you're not gonna come up with 512
-              options, so just stop) and we may make this a featured bracket.
-              But, wait, there's more! Soon, you'll be able to schedule
-              this bracket on your own, either public or through a special
-              link you share with your friends (or, whomever, doesn't
-              have to be friends, we don't judge). Check back soon--say,
-              a couple weeks. And the powers of 2 rule will also go away,
-              but that may be more months than weeks.
+              Add at least 8 competitors and we may make this a featured
+              bracket.  Soon, you'll be able to schedule this bracket on your
+              own, either public or through a special link you share with your
+              friends (or, whomever, doesn't have to be friends, we don't
+              judge).
             </Text>
           </Notice>
 
