@@ -8,6 +8,7 @@ import { useNavigate } from 'app/src/utils/routing';
 import { Header, Subtitle } from 'app/src/styles';
 import { Button } from 'app/src/elements/buttons';
 import DataState from 'app/src/components/DataState';
+import Announcements from 'app/src/components/Announcements';
 
 import { TOURNAMENTS } from './queries';
 import TournamentCard from './TournamentCard';
@@ -30,6 +31,7 @@ const Home = () => {
         <title>bracket.today</title>
       </Helmet>
       <Header>
+        <Announcements />
         <Button
           label="Vote on all active contests"
           onPress={() => navigate('/bracket/vote')}
