@@ -32,7 +32,7 @@ const Footer = () => {
     <Container>
       <FooterText onPress={openPrivacy}>Privacy Policy</FooterText>
       <Link to="/ticket">
-        <FooterText>Report a Bug</FooterText>
+        <FooterText>Report Bug/Request Feature</FooterText>
       </Link>
     </Container>
   );
