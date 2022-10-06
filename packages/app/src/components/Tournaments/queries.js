@@ -1,6 +1,9 @@
 import { gql } from '@apollo/client';
 
+import { CONTEST_FIELDS } from 'app/src/components/Bracket/queries';
+
 const TOURNAMENT_FIELDS = gql`
+  ${CONTEST_FIELDS}
   fragment TournamentFields on Tournament {
     id
     name
@@ -13,6 +16,9 @@ const TOURNAMENT_FIELDS = gql`
         id
         name
       }
+    }
+    firstRoundPreview {
+      ...ContestFields
     }
   }
 `;

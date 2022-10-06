@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import styled from 'styled-components/native';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
+import MediaQuery from 'react-native-web-responsive';
 
 import { useNavigate, useParams } from 'app/src/utils/routing';
 import { Header, Title, Subtitle, Text, Notice, Hint } from 'app/src/styles';
@@ -11,6 +12,7 @@ import DataState from 'app/src/components/DataState';
 import { Button } from 'app/src/elements/buttons';
 import Confirm from 'app/src/elements/Confirm';
 import colors from 'app/src/styles/colors';
+import Contest from 'app/src/components/Bracket/Contest';
 
 import {
   USER_TOURNAMENT,
@@ -21,6 +23,22 @@ import {
 import Competitor from './Competitor';
 import EntitySelect from './EntitySelect';
 import Visibility from './Visibility';
+
+const CompetitorsContainer = styled(View)`
+  flex-direction: row;
+`;
+
+const Seeding = styled(View)`
+  flex: 1;
+`;
+
+const Preview = styled(View)`
+  flex: 1;
+  max-width: 400px;
+  margin-left: 20px;
+  background-color: #f0f0f0;
+  padding: 10px;
+`;
 
 const AddCompetitor = styled(View)`
   margin-top: 10px
@@ -155,51 +173,69 @@ const Tournament = () => {
         </>
       )}
 
-      <Title>
-        Competitors ({competitorsLength})
-      </Title>
+      <CompetitorsContainer>
+        <Seeding>
+          <Title>
+            Competitors ({competitorsLength})
+          </Title>
 
-      <DndProvider backend={HTML5Backend}>
-        {enableDragDrop && (
-          <Hint>
-            ⓘ Competitors will be seeded based on the order below. Drag and drop
-            to update the seeding.
-          </Hint>
-        )}
+          {enableDragDrop && (
+            <Hint>
+              ⓘ Competitors will be seeded based on the order below.
+              Drag and drop to update the seeding.
+            </Hint>
+          )}
 
-        {canEditCompetitors && (
-          <Button
-            label="Randomize Seeding"
-            onPress={() => setShowRandomizeConfirm(true)}
-          />
-        )}
+          <DndProvider backend={HTML5Backend}>
+            {canEditCompetitors && (
+              <Button
+                label="Randomize Seeding"
+                onPress={() => setShowRandomizeConfirm(true)}
+              />
+            )}
 
-        {sortedCompetitors.map((competitor, index) => (
-          <Competitor
-            key={competitor.id}
-            competitor={competitor}
-            refetch={refetch}
-            tournamentStatus={tournamentStatus}
-            moveCompetitor={moveCompetitor}
-            index={index}
-            saveSeeds={saveSeeds}
-            enableDragDrop={enableDragDrop}
-          />
-        ))}
-      </DndProvider>
+            {sortedCompetitors.map((competitor, index) => (
+              <Competitor
+                key={competitor.id}
+                competitor={competitor}
+                refetch={refetch}
+                tournamentStatus={tournamentStatus}
+                moveCompetitor={moveCompetitor}
+                index={index}
+                saveSeeds={saveSeeds}
+                enableDragDrop={enableDragDrop}
+              />
+            ))}
+          </DndProvider>
 
-      {canEditCompetitors && (
-        <AddCompetitor>
-          <Subtitle>Add Another</Subtitle>
-          <Hint>
-            ⓘ Choose from the Autocomplete or Click the Checkbox to add.
-          </Hint>
-          <EntitySelect
-            tournament={data?.currentUser.tournament}
-            refetch={refetch}
-          />
-        </AddCompetitor>
-      )}
+          {canEditCompetitors && (
+            <AddCompetitor>
+              <Subtitle>Add Another</Subtitle>
+              <Hint>
+                ⓘ Choose from the Autocomplete or Click the Checkbox to add.
+              </Hint>
+              <EntitySelect
+                tournament={data?.currentUser.tournament}
+                refetch={refetch}
+              />
+            </AddCompetitor>
+          )}
+        </Seeding>
+
+        <MediaQuery minWidth={800}>
+          <Preview>
+            <Title>
+              First Round Preview
+            </Title>
+
+            {data?.currentUser.tournament.firstRoundPreview.map(contest => (
+              <View key={contest.id}>
+                <Contest contest={contest} refetch={refetch} />
+              </View>
+            ))}
+          </Preview>
+        </MediaQuery>
+      </CompetitorsContainer>
 
       <Confirm
         title="Randomize Seeding"
