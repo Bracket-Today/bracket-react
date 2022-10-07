@@ -15,6 +15,8 @@ export const USER_FIELDS = gql`
     id
     loginCode
     username
+    instagramHandle
+    twitterHandle
   }
 `;
 

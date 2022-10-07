@@ -6,6 +6,7 @@ import DataState from 'app/src/components/DataState';
 import ClientContext from 'app/src/contexts/ClientContext';
 import Input from 'app/src/elements/inputs';
 import { Button } from 'app/src/elements/buttons';
+import { Subtitle } from 'app/src/styles';
 
 import { UPDATE_CURRENT_USER } from './queries';
 
@@ -15,7 +16,11 @@ const EditProfile = () => {
   const { currentUser, refetchCurrentUser } = useContext(ClientContext);
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
-    defaultValues: { username: currentUser.username || '' }
+    defaultValues: {
+      username: currentUser.username || '',
+      instagramHandle: currentUser.instagramHandle || '',
+      twitterHandle: currentUser.twitterHandle || '',
+    }
   });
 
   useEffect(() => {
@@ -52,6 +57,25 @@ const EditProfile = () => {
             message: 'Must be 4 to 15 letters, numbers, or underscore'
           }
         }}
+      />
+
+      <Subtitle>
+        If you want to provide your social media handles, we can tag you when
+        your brackets are featured or with other updates.
+      </Subtitle>
+
+      <Input.Text
+        label="Instagram Handle"
+        name="instagramHandle"
+        control={control}
+        errors={errors}
+      />
+
+      <Input.Text
+        label="Twitter Handle"
+        name="twitterHandle"
+        control={control}
+        errors={errors}
       />
 
       <Button label="Save" onPress={handleSubmit(onSubmit)} wide />
