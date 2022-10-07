@@ -101,10 +101,14 @@ const Bracket = () => {
   if ('Active' === data?.tournament.status) {
     statusDetail = `Round ${data.tournament.round.number}`
     if (remaining) {
-      statusDetail += ` | ${durationString(remaining)} remaining.`;
+      statusDetail += ` | ${durationString(remaining)} remaining`;
     }
   } else if (data?.tournament.winner) {
     statusDetail = `WINNER: ${data.tournament.winner.entity.name}`;
+  }
+
+  if (data?.tournament.owner?.username) {
+    statusDetail += ` | Bracket by ${data.tournament.owner.username}`;
   }
 
   return (

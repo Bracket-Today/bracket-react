@@ -52,6 +52,9 @@ const TOURNAMENT_FIELDS = gql`
     bracketPath
     name
     status
+    owner {
+      username
+    }
     round {
       number
       secondsRemaining
