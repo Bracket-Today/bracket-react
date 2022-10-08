@@ -6,11 +6,11 @@ import styled from 'styled-components/native';
 import Toast from 'react-native-toast-message';
 
 import { useParams, useNavigate } from 'app/src/utils/routing';
-import { Header, Title, Subtitle, Text } from 'app/src/styles';
+import { Header, Title, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
-import durationString from 'app/src/utils/durationString';
 
 import { TOURNAMENT } from './queries';
+import BracketSubtitle from './Subtitle';
 import Contest from './Contest';
 
 const Tournament = styled(View)`
@@ -27,24 +27,11 @@ const Round = styled(View)`
 const Bracket = () => {
   const { id } = useParams();
   const [updatedAt, setUpdatedAt] = useState();
-  const [remaining, setRemaining] = useState();
+
   const navigate = useNavigate();
 
   const { data, refetch, ...queryStatus } =
     useQuery(TOURNAMENT, { variables: { id } });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (updatedAt) {
-        const elapsed = (Date.now() - updatedAt) / 1000;
-        setRemaining(data.tournament.round.secondsRemaining - elapsed);
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [updatedAt]);
 
   const goToTournament = tournament => {
     navigate(tournament.bracketPath);
@@ -96,21 +83,6 @@ const Bracket = () => {
     return (<></>);
   }
 
-  let statusDetail = data?.tournament.status;
-
-  if ('Active' === data?.tournament.status) {
-    statusDetail = `Round ${data.tournament.round.number}`
-    if (remaining) {
-      statusDetail += ` | ${durationString(remaining)} remaining`;
-    }
-  } else if (data?.tournament.winner) {
-    statusDetail = `WINNER: ${data.tournament.winner.entity.name}`;
-  }
-
-  if (data?.tournament.owner?.username) {
-    statusDetail += ` | Bracket by ${data.tournament.owner.username}`;
-  }
-
   return (
     <DataState data={data} {...queryStatus}>
       <Helmet>
@@ -118,9 +90,12 @@ const Bracket = () => {
       </Helmet>
       <Header>
         <Title>{data?.tournament.name}</Title>
-        <Subtitle>
-          {statusDetail}
-        </Subtitle>
+        {data?.tournament && (
+          <BracketSubtitle
+            tournament={data?.tournament}
+            updatedAt={updatedAt}
+          />
+        )}
       </Header>
       <ScrollView horizontal>
         <Tournament>
