@@ -12,6 +12,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.33.0",
     "react-native-awesome-alerts": "^2.0.0",
+    "react-native-modal": "^13.0.1",
     "react-native-storage": "^1.0.1",
     "react-native-toast-message": "^2.1.5",
     "react-native-web-responsive": "^1.0.5",

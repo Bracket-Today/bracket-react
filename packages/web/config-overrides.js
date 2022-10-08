@@ -11,6 +11,7 @@ const appIncludes = [
   resolveApp('../app/src'),
   resolveApp('../../node_modules/react-native-awesome-alerts'),
   resolveApp('../../node_modules/react-native-toast-message'),
+  resolveApp('../../node_modules/react-native-animatable'),
 ]
 
 module.exports = function override(config, env) {

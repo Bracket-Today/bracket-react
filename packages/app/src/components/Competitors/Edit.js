@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Modal } from 'react-native';
+import Modal from 'react-native-modal';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 
 import DataState from 'app/src/components/DataState';
-import { Text } from 'app/src/styles';
 import { ModalContent } from 'app/src/styles/modal';
 import Input from 'app/src/elements/inputs';
 import { Button } from 'app/src/elements/buttons';
@@ -28,7 +27,7 @@ const EditCompetitor = ({ competitor, handleHide }) => {
   });
 
   return (
-    <Modal visible transparent>
+    <Modal isVisible avoidKeyboard onBackdropPress={handleHide}>
       <ModalContent>
         <DataState loading={submitting}>
           <Input.Text
