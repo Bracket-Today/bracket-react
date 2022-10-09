@@ -103,3 +103,13 @@ export const SUBMIT_VOTE = gql`
     }
   }
 `;
+
+export const CLEAR_VOTE = gql`
+  mutation Vote($input: ClearVoteInput!) {
+    clearVote(input: $input) {
+      contest {
+        id
+      }
+    }
+  }
+`;
