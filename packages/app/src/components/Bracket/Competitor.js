@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Pressable } from 'react-native';
 import styled from 'styled-components/native';
-import { useMutation } from '@apollo/client';
 
 import { Text } from 'app/src/styles';
 
-import { SUBMIT_VOTE } from './queries';
+import ContestDetails from './ContestDetails';
+import VoteButton from './VoteButton';
 
 const Container = styled(View)`
   display: flex;
@@ -19,65 +19,29 @@ const Score = styled(Text)`
   font-size: 12px;
 `;
 
-const VoteIcon = styled(View)`
-  background-color: gray;
-  color: white;
-  border-radius: 10px;
-  width: 20px;
-  height: 20px;
-  margin-left: 3px;
-  padding-left: 3px;
-`;
-
 const Competitor = ({ competitor, contest, priorScore, refetch }) => {
-  const [submitVote] = useMutation(SUBMIT_VOTE, {
-    variables: {
-      input: {
-        competitorId: competitor?.id,
-        contestId: contest?.id,
-      }
-    },
-    onCompleted: refetch
-  });
+  const [showContest, setShowContest] = useState();
 
   const style = {};
   if (contest.winner?.id === competitor?.id) {
     style['color'] = 'green'
   }
-
-  let voteIcon = null;
-  let handleVote = null;
-
-  const currentVote =
-    competitor && competitor?.id === contest.currentUserVote?.id;
-
-  if (currentVote) {
-    voteIcon = (
-      <VoteIcon style={{backgroundColor: 'green'}}>
-        <Text style={{color: 'white'}}>✓</Text>
-      </VoteIcon>
-    );
-  } else if (contest.isActive) {
-    voteIcon = (
-      <VoteIcon>
-        <Text style={{color: 'white'}}>✓</Text>
-      </VoteIcon>
-    );
-
-    handleVote = submitVote;
-  }
-
   return (
     <Container>
-      <Text style={style}>
-        {competitor?.seed} {competitor?.entity.name}
-      </Text>
-      {priorScore && <Score>({priorScore[0]}-{priorScore[1]})</Score>}
-      <Pressable onPress={handleVote}>
-        <Text>
-          {voteIcon}
+      <Pressable onPress={() => setShowContest(true)}>
+        <Text style={style}>
+          {competitor?.seed} {competitor?.entity.name}
         </Text>
       </Pressable>
+      {priorScore && <Score>({priorScore[0]}-{priorScore[1]})</Score>}
+      <VoteButton competitor={competitor} contest={contest} refetch={refetch} />
+      {showContest && (
+        <ContestDetails
+          contest={contest}
+          refetch={refetch}
+          handleHide={() => setShowContest(false)}
+        />
+      )}
     </Container>
   );
 };

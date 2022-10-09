@@ -5,7 +5,7 @@ export const ModalContent = styled(View)`
   background-color: white;
   border-color: black;
   border-radius: 10px;
-  border-width: 1;
+  border-width: 1px;
   justify-content: center;
   margin: auto;
   padding: 16px;
