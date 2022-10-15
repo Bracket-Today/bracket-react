@@ -18,7 +18,11 @@ const EditCompetitor = ({ competitor, handleHide }) => {
   });
 
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: { id: competitor.id, name: competitor.entity.name || '' }
+    defaultValues: {
+      id: competitor.id,
+      name: competitor.entity.name || '',
+      annotation: competitor.annotation || '',
+    }
   });
 
   const onSubmit = useCallback(input => {
@@ -36,6 +40,12 @@ const EditCompetitor = ({ competitor, handleHide }) => {
             control={control}
             errors={errors}
             rules={{required: true}}
+          />
+          <Input.Text
+            label="Annotation"
+            hint="(additional detail, such as year)"
+            name="annotation"
+            control={control}
           />
           <Button label="Save" onPress={handleSubmit(onSubmit)} wide />
           <Button

@@ -61,6 +61,9 @@ const Suggestion = ({ entity, tournament, createCompetitor }) => {
   );
 };
 
+const COMPETITOR_ANNOTATION_REGEX = /^([^\(]+)\s+\(([^\)]+)\)\s*$/;
+const ENTITY_ANNOTATION_REGEX = /^([^\[]+)\s+\[([^\)]+)\]\s*$/;
+
 const EntitySelect = ({ tournament, refetch }) => {
   const [term, setTerm] = useState('');
 
@@ -76,14 +79,24 @@ const EntitySelect = ({ tournament, refetch }) => {
   const handlePress = () => {
     if (!term.length) { return; }
 
-    createCompetitor({
-      variables: {
-        input: {
-          tournamentId: tournament.id,
-          name: term,
-        }
-      }
-    });
+    const input = {
+      tournamentId: tournament.id,
+      name: term,
+    };
+
+    const annotationMatch = term.match(COMPETITOR_ANNOTATION_REGEX);
+    if (annotationMatch) {
+      input.name = annotationMatch[1];
+      input.annotation = annotationMatch[2];
+    };
+
+    const entityAnnotationMatch = term.match(ENTITY_ANNOTATION_REGEX);
+    if (entityAnnotationMatch) {
+      input.name = entityAnnotationMatch[1];
+      input.entityAnnotation = entityAnnotationMatch[2];
+    };
+
+    createCompetitor({ variables: { input } });
   };
 
   const handleKeyPress = e => {

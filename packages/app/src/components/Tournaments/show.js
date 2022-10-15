@@ -213,6 +213,8 @@ const Tournament = () => {
               <Subtitle>Add Another</Subtitle>
               <Hint>
                 ⓘ Choose from the Autocomplete or Click the Checkbox to add.
+                Place annotations (such as year released) in parentheses.
+                Annotations can be added later by editing.
               </Hint>
               <EntitySelect
                 tournament={data?.currentUser.tournament}

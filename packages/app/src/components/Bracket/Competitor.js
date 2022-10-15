@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 
-import { Text } from 'app/src/styles';
+import { Text, Hint } from 'app/src/styles';
 
 import ContestDetails from './ContestDetails';
 import VoteButton from './VoteButton';
@@ -19,6 +19,10 @@ const Score = styled(Text)`
   font-size: 12px;
 `;
 
+const Annotation = styled(Hint)`
+  font-size: 12px;
+`;
+
 const Competitor = ({ competitor, contest, priorScore, refetch }) => {
   const [showContest, setShowContest] = useState();
 
@@ -26,12 +30,16 @@ const Competitor = ({ competitor, contest, priorScore, refetch }) => {
   if (contest.winner?.id === competitor?.id) {
     style['color'] = 'green'
   }
+
+  const annotation = competitor?.annotation || competitor?.entity.annotation;
+
   return (
     <Container>
       <Pressable onPress={() => setShowContest(true)}>
         <Text style={style}>
           {competitor?.seed} {competitor?.entity.name}
         </Text>
+        {annotation && <Annotation>{annotation}</Annotation>}
       </Pressable>
       {priorScore && <Score>({priorScore[0]}-{priorScore[1]})</Score>}
       <VoteButton competitor={competitor} contest={contest} refetch={refetch} />

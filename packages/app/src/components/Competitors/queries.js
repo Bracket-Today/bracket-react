@@ -3,9 +3,11 @@ import { gql } from '@apollo/client';
 const COMPETITOR_FIELDS = gql`
   fragment CompetitorFields on Competitor {
     id
+    annotation
     entity {
       id
       name
+      annotation
     }
   }
 `;

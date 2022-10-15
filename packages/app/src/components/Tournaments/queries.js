@@ -12,9 +12,11 @@ const TOURNAMENT_FIELDS = gql`
     competitors {
       id
       seed
+      annotation
       entity {
         id
         name
+        annotation
       }
     }
     firstRoundPreview {

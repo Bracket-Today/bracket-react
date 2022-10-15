@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 
-import { Subtitle, Text } from 'app/src/styles';
+import { Subtitle, Text, Hint } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
 
 import VoteButton from './VoteButton';
@@ -19,14 +19,25 @@ const Header = styled(View)`
   justify-content: space-between;
 `;
 
+const Annotation = styled(Hint)`
+`;
+
 const CompetitorDetails = ({ competitor, contest, refetch }) => {
   return (
     <Container>
       {competitor ? (
         <Header>
           <View>
-            <Subtitle style={{color: colors.screen}}>{competitor.entity.name}</Subtitle>
+            <Subtitle style={{color: colors.screen}}>
+              {competitor.entity.name}
+            </Subtitle>
             <Text>Seed {competitor.seed}</Text>
+            {competitor.annotation && (
+              <Annotation>{competitor.annotation}</Annotation>
+            )}
+            {competitor.entity.annotation && (
+              <Annotation>{competitor.entity.annotation}</Annotation>
+            )}
           </View>
           <View style={{width: 50}}>
             <VoteButton

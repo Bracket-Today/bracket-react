@@ -4,8 +4,10 @@ const COMPETITOR_FIELDS = gql`
   fragment CompetitorFields on Competitor {
     id
     seed
+    annotation
     entity {
       name
+      annotation
     }
   }
 `;

@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { Controller } from 'react-hook-form';
 import { View, TextInput as BaseTextInput } from 'react-native';
 
-import { Text } from 'app/src/styles';
+import { Text, Hint } from 'app/src/styles';
 import { Picker } from 'app/src/elements/Picker';
 
 const StyledTextInput = styled(BaseTextInput)`
@@ -24,6 +24,7 @@ const Field = styled(View)`
 export const TextInput = forwardRef((props, ref) => {
   const {
     label,
+    hint,
     control,
     errors,
     placeholder,
@@ -43,6 +44,7 @@ export const TextInput = forwardRef((props, ref) => {
         <Text>{label}</Text>
         {errorMessage && <ErrorText>{errorMessage}.</ErrorText>}
       </View>
+      {hint && <Hint>{hint}</Hint>}
       <Controller
         {...controllerProps}
         control={control}

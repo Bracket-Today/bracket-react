@@ -107,7 +107,12 @@ const Competitor = props => {
   return (
     <Container ref={ref} style={{opacity}}>
       <Seed>{competitor.seed}</Seed>
-      <Text>{competitor.entity.name}</Text>
+      <Text>
+        {competitor.entity.name}
+        {competitor.annotation ?  ` (${competitor.annotation})` :
+          competitor.entity.annotation && ` [${competitor.entity.annotation}]`
+        }
+      </Text>
       {!['Closed', 'Active'].includes(tournamentStatus) && (
         <>
           <EditButton onPress={() => setShowEdit(true)}>
