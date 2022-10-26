@@ -12,6 +12,7 @@ const appIncludes = [
   resolveApp('../../node_modules/react-native-awesome-alerts'),
   resolveApp('../../node_modules/react-native-toast-message'),
   resolveApp('../../node_modules/react-native-animatable'),
+  resolveApp('../../node_modules/@react-native-community/datetimepicker'),
 ]
 
 module.exports = function override(config, env) {
