@@ -32,7 +32,7 @@ const VisibilityPicker = styled(Picker)`
   width: 300px;
 `;
 
-const visibilityOptions = [
+export const VISIBILITY_OPTIONS = [
   {
     value: 'Can Feature',
     label: 'Public - Okay to Feature',
@@ -54,7 +54,7 @@ const visibilityOptions = [
   },
 ];
 
-const Visibility = ({ tournament, canSchedule, refetch }) => {
+const Visibility = ({ tournament, refetch }) => {
   const [updateTournamentVisibility] = useMutation(
     UPDATE_TOURNAMENT_VISIBILITY,
     {
@@ -79,7 +79,7 @@ const Visibility = ({ tournament, canSchedule, refetch }) => {
     return null;
   }
 
-  const selectedVisibility = visibilityOptions.find(option => (
+  const selectedVisibility = VISIBILITY_OPTIONS.find(option => (
     option.value === tournament.visibility
   ));
 
@@ -91,7 +91,7 @@ const Visibility = ({ tournament, canSchedule, refetch }) => {
           selectedValue={selectedVisibility?.value}
           onValueChange={handleVisibilityChange}
         >
-          {visibilityOptions.map(option => (
+          {VISIBILITY_OPTIONS.map(option => (
             <Picker.Item
               key={option.value}
               value={option.value}
@@ -106,22 +106,6 @@ const Visibility = ({ tournament, canSchedule, refetch }) => {
 
   return (
     <>
-      {canSchedule && (
-        <>
-          <Subtitle>This tournament is ready to be scheduled!</Subtitle>
-          {'Can Feature' === selectedVisibility.value ? (
-            <Text>
-              We may feature it, or soon you'll be able to schedule it.
-            </Text>
-          ) : (
-            <Text>
-              Unfortunately, the functionality doesn't exist yet.
-              We expect it before the end of August.
-            </Text>
-          )}
-        </>
-      )}
-
       <MediaQuery maxWidth={799}>
         <VisibilityFormSmall>
           <VisibilityFormChildren />

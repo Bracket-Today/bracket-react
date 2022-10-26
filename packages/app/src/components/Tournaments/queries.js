@@ -6,9 +6,13 @@ const TOURNAMENT_FIELDS = gql`
   ${CONTEST_FIELDS}
   fragment TournamentFields on Tournament {
     id
+    bracketPath
     name
     status
     visibility
+    roundDurationQuantity
+    roundDurationUnit
+    startAt
     competitors {
       id
       seed
@@ -29,6 +33,7 @@ export const USER_TOURNAMENT = gql`
   ${TOURNAMENT_FIELDS}
   query UserTournaments($id: ID!) {
     currentUser {
+      registered
       tournament(id: $id) {
         ...TournamentFields
       }
@@ -71,6 +76,17 @@ export const RANDOM_TOURNAMENT_SEEDS = gql`
   ${TOURNAMENT_FIELDS}
   mutation RandomTournamentSeeds($input: RandomTournamentSeedsInput!) {
     randomTournamentSeeds(input: $input) {
+      tournament {
+        ...TournamentFields
+      }
+    }
+  }
+`;
+
+export const SCHEDULE_TOURNAMENT = gql`
+  ${TOURNAMENT_FIELDS}
+  mutation ScheduleTournament($input: ScheduleTournamentInput!) {
+    scheduleTournament(input: $input) {
       tournament {
         ...TournamentFields
       }

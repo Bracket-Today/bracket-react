@@ -31,6 +31,7 @@ const ButtonText = styled(HeaderText)`
   color: white;
   font-weight: 800;
   text-decoration-line: none;
+  text-align: center;
 `;
 
 export const Button = ({ to, label, dangerous, inline, wide, ...props }) => {

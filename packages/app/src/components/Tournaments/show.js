@@ -5,8 +5,10 @@ import styled from 'styled-components/native';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import MediaQuery from 'react-native-web-responsive';
+import { DateTime } from 'luxon';
+import { ActivityIndicator } from 'react-native';
 
-import { useNavigate, useParams } from 'app/src/utils/routing';
+import { useNavigate, useParams, Link } from 'app/src/utils/routing';
 import { Header, Title, Subtitle, Text, Notice, Hint } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import { Button } from 'app/src/elements/buttons';
@@ -22,6 +24,7 @@ import {
 } from './queries';
 import Competitor from './Competitor';
 import EntitySelect from './EntitySelect';
+import ScheduleTournament from './Schedule';
 import Visibility from './Visibility';
 
 const CompetitorsContainer = styled(View)`
@@ -57,12 +60,20 @@ const dndOptions = {
   enableMouseEvents: true
 };
 
+const formattedStart = data => {
+  if (!data || !data.currentUser.tournament.startAt) { return null; }
+
+  const time = DateTime.fromISO(data.currentUser.tournament.startAt);
+  return time.toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS);
+};
+
 const Tournament = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [sortedCompetitors, setSortedCompetitors] = useState([]);
   const [showRandomizeConfirm, setShowRandomizeConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
 
   const { data, refetch, ...queryStatus } =
     useQuery(USER_TOURNAMENT, { variables: { id } });
@@ -127,10 +138,20 @@ const Tournament = () => {
     );
   }
 
+  // Native doesn't refresh after sortedCompetitors set until a UI interaction
+  // using just the normal DataState handling. This was easier than
+  // understanding why. (Jared Morgan 20221025)
+  if ('undefined' === typeof sortedCompetitors) {
+    return <ActivityIndicator size="large" color={colors.screen} />;
+  }
+
   const tournamentStatus = data?.currentUser.tournament.status;
   const canEditCompetitors = !['Active', 'Closed'].includes(tournamentStatus);
   const competitorsLength = sortedCompetitors.length;
   const canSchedule = competitorsLength >= 8;
+  const bracketPath = data?.currentUser.tournament.bracketPath;
+  const bracketUrl = `https://www.bracket.today${bracketPath}`;
+  const shortBracketUrl = bracketUrl.split('/').slice(0, -1).join('/');
 
   // TODO react-dnd is throwing "addEventListener is not a function". in native.
   // Just disable drag drop in native for now.
@@ -141,7 +162,27 @@ const Tournament = () => {
       <Header>
         <Title>{data?.currentUser.tournament.name}</Title>
         <Subheader>
-          <Subtitle>{data?.currentUser.tournament.status}</Subtitle>
+          <Subtitle>
+            <MediaQuery minWidth={800}>
+              <>
+                <Text>{tournamentStatus}</Text>
+                {['Pending', 'Active'].includes(tournamentStatus) && (
+                  <>
+                    <Text> - </Text>
+                    <Link style={{color: 'green'}} to={bracketPath}>
+                      <Text>{shortBracketUrl}</Text>
+                    </Link>
+                  </>
+                )}
+                {'Pending' === tournamentStatus && (
+                  <Text> - starts {formattedStart(data)}</Text>
+                )}
+              </>
+            </MediaQuery>
+            <MediaQuery maxWidth={799}>
+              <Text>{tournamentStatus}</Text>
+            </MediaQuery>
+          </Subtitle>
           {canEditCompetitors && (
             <Button
               label="Delete"
@@ -151,23 +192,53 @@ const Tournament = () => {
             />
           )}
         </Subheader>
+        <MediaQuery maxWidth={799}>
+          <>
+            {['Pending', 'Active'].includes(tournamentStatus) && (
+              <Link style={{color: 'green'}} to={bracketPath}>
+                <Text>{shortBracketUrl}</Text>
+              </Link>
+            )}
+            {'Pending' === tournamentStatus && (
+              <Text>Starts {formattedStart(data)}</Text>
+            )}
+          </>
+        </MediaQuery>
       </Header>
 
       {canEditCompetitors && (
         <>
-          <Notice>
-            <Text>
-              Add at least 8 competitors and we may make this a featured
-              bracket.  Soon, you'll be able to schedule this bracket on your
-              own, either public or through a special link you share with your
-              friends (or, whomever, doesn't have to be friends, we don't
-              judge).
-            </Text>
-          </Notice>
+          {canSchedule ? (
+            data?.currentUser.registered ? (
+              <Button
+                label={
+                  'Pending' === tournamentStatus ?
+                    'Bracket is scheduled. Click to update' :
+                    'This bracket is ready. Let the people vote!'
+                }
+                onPress={() => setShowScheduleModal(true)}
+                wide
+              />
+            ) : (
+              <Notice>
+                <Text>
+                  This tournament is eligible to be featured, but if you want to
+                  schedule it now, click the Profile link and register your
+                  email.
+                </Text>
+              </Notice>
+            )
+          ) : (
+            <Notice>
+              <Text>
+                Add at least 8 competitors and we may make this a featured
+                bracket.
+              </Text>
+            </Notice>
+          )}
 
           <Visibility
             tournament={data?.currentUser.tournament}
-            canSchedule={canSchedule}
             refetch={refetch}
           />
         </>
@@ -255,6 +326,13 @@ const Tournament = () => {
         onConfirm={deleteTournament}
         dangerous
       />
+
+      {showScheduleModal && (
+        <ScheduleTournament
+          tournament={data?.currentUser.tournament}
+          handleHide={() => setShowScheduleModal(false)}
+        />
+      )}
     </DataState>
   );
 };
