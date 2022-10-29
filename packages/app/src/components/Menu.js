@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { View, Pressable, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import MediaQuery from 'react-native-web-responsive';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 import { Text } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
 import { Link } from 'app/src/utils/routing';
+import ExternalLink from 'app/src/elements/ExternalLink';
 
 const Container = styled(View)`
   padding-bottom: 10px;
@@ -42,6 +45,8 @@ const ItemsLarge = styled.View`
 `;
 
 const ItemsSmall = styled(View)`
+  margin-bottom: 12px;
+  padding-left: 4px;
 `;
 
 const MenuItem = styled(View)`
@@ -71,6 +76,17 @@ const MenuLine = styled(View)`
   background-color: white;
 `;
 
+const SocialIcons = styled(View)`
+  margin-top: 4px;
+  margin-bottom: -3px;
+  display: flex;
+  flex-direction: row;
+`;
+
+const FontAwesome = styled(FontAwesomeIcon)`
+  color: white;
+`;
+
 const MenuItems = () => {
   return (
     <>
@@ -84,24 +100,18 @@ const MenuItems = () => {
           <MenuItemText>Profile</MenuItemText>
         </Link>
       </MenuItem>
-      {'web' === Platform.OS && (
-        <>
-          <MenuItem>
-            <a href="https://twitter.com/BracketToday">
-              <MenuItemText>
-                <i className="fa-brands fa-twitter"></i>
-              </MenuItemText>
-            </a>
-          </MenuItem>
-          <MenuItem>
-            <a href="https://www.instagram.com/bracket.today/">
-              <MenuItemText>
-                <i className="fa-brands fa-instagram"></i>
-              </MenuItemText>
-            </a>
-          </MenuItem>
-        </>
-      )}
+      <SocialIcons>
+        <MenuItem>
+          <ExternalLink url="https://twitter.com/BracketToday">
+            <FontAwesome icon={faTwitter} size={20} />
+          </ExternalLink>
+        </MenuItem>
+        <MenuItem>
+          <ExternalLink url="https://www.instagram.com/bracket.today/">
+            <FontAwesome icon={faInstagram} size={20} />
+          </ExternalLink>
+        </MenuItem>
+      </SocialIcons>
     </>
   );
 }
