@@ -9,9 +9,9 @@ import Contest from 'app/src/components/Bracket/Contest';
 
 const Card = styled(View)`
   flex-direction: column;
-  border-width: 1px;
+  border-width: 2px;
   border-style: solid;
-  border-color: ${colors.headerText};
+  border-color: ${props => props.featured ? colors.button : colors.screen};
   border-radius: 5px;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -78,7 +78,7 @@ const Detail = ({ tournament, refetch }) => {
 
 const TournamentCard = ({ tournament }) => {
   return (
-    <Card>
+    <Card featured={tournament.featured}>
       <Link to={tournament.bracketPath} style={{textDecoration: 'none'}}>
         <Name>{tournament.name}</Name>
       </Link>

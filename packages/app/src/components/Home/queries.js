@@ -22,6 +22,7 @@ export const TOURNAMENTS = gql`
       votesCount
       contestsCount
       currentUserVotedWinnerCount
+      featured
     }
   }
 `;

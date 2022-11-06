@@ -22,7 +22,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { data, ...queryStatus } = useQuery(
-    TOURNAMENTS, { variables: { scopes: ['activeAndRecent'] } }
+    TOURNAMENTS, { variables: { scopes: ['activeAndRecent', 'visible'] } }
   );
 
   return (
