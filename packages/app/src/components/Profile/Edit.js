@@ -24,8 +24,11 @@ const EditProfile = () => {
   });
 
   useEffect(() => {
-    const { username } = currentUser;
-    reset({ username: (username || '') });
+    reset({
+      username: currentUser.username || '',
+      instagramHandle: currentUser.instagramHandle || '',
+      twitterHandle: currentUser.twitterHandle || '',
+    });
   }, [currentUser]);
 
   const [updateCurrentUser, { error }] = useMutation(UPDATE_CURRENT_USER, {
