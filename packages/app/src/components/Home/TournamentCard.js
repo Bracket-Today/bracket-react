@@ -61,7 +61,7 @@ const Detail = ({ tournament, refetch }) => {
       <>
         <Section>
           <Highlight>
-            Winner: {tournament.summaryContests[0].winner.entity.name}
+            Winner: {tournament.summaryContests[0].winner?.entity.name}
           </Highlight>
         </Section>
         <Section>
