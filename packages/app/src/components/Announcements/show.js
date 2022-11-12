@@ -24,10 +24,6 @@ const Subject = styled(Subtitle)`
   color: ${colors.screen};
 `;
 
-const LinkSmall = styled(Link)`
-  margin-top: 8px;
-`;
-
 const Details = styled(Text)`
   margin-top: 8px;
   font-size: 14px;
@@ -52,9 +48,9 @@ const Announcement = ({ announcement }) => {
         <SubjectContainerSmall>
           <Subject>{announcement.subject}</Subject>
           {hasLink && (
-            <LinkSmall to={announcement.url}>
+            <Link to={announcement.url}>
               <Subject> → {announcement.linkText}</Subject>
-            </LinkSmall>
+            </Link>
           )}
         </SubjectContainerSmall>
       </MediaQuery>
