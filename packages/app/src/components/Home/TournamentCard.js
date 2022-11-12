@@ -8,17 +8,20 @@ import { Link, useNavigate } from 'app/src/utils/routing';
 import Contest from 'app/src/components/Bracket/Contest';
 
 const Card = styled(View)`
-  flex-direction: column;
   border-width: 2px;
   border-style: solid;
   border-color: ${props => props.featured ? colors.button : colors.screen};
   border-radius: 5px;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  width: 300px;
   padding: 10px;
-  height: 90%;
-  max-height: 260px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  max-height: 300px;
+  margin-left: 5px;
+  margin-right: 5px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  width: 10%;
+  min-width: 300px;
 `;
 
 const Name = styled(Text)`

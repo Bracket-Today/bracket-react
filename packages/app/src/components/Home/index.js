@@ -14,8 +14,11 @@ import { TOURNAMENTS } from './queries';
 import TournamentCard from './TournamentCard';
 
 const Container = styled(View)`
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-left: -5px;
+  margin-right: -5px;
 `;
 
 const Home = () => {
@@ -42,9 +45,7 @@ const Home = () => {
       <Container>
         <DataState data={data} {...queryStatus}>
           {data?.tournaments.map(tournament => (
-            <View key={tournament.id}>
-              <TournamentCard tournament={tournament} />
-            </View>
+            <TournamentCard key={tournament.id} tournament={tournament} />
           ))}
         </DataState>
       </Container>
