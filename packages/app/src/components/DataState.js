@@ -1,5 +1,6 @@
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
+import styled from 'styled-components/native';
 
 import { Warning, WarningText } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
@@ -7,11 +8,21 @@ import { useNavigate } from 'app/src/utils/routing';
 
 import { ErrorMessage } from './ErrorBoundary';
 
+const ActivityContainer = styled(View)`
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 6px;
+`;
+
 const DataState = ({ data, loading, error, userErrors, children }) => {
   const navigate = useNavigate();
 
   if (loading && !data) {
-    return <ActivityIndicator size="large" color={colors.screen} />;
+    return (
+      <ActivityContainer>
+        <ActivityIndicator size="large" color={colors.screen} />
+      </ActivityContainer>
+    );
   }
 
   if (error) {
