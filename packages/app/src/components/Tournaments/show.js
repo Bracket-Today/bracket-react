@@ -19,11 +19,11 @@ import Contest from 'app/src/components/Bracket/Contest';
 import {
   USER_TOURNAMENT,
   DELETE_TOURNAMENT,
-  RANDOM_TOURNAMENT_SEEDS,
   UPDATE_TOURNAMENT_SEEDS,
 } from './queries';
 import Competitor from './Competitor';
 import EntitySelect from './EntitySelect';
+import RandomizeSeeds from './RandomizeSeeds';
 import ScheduleTournament from './Schedule';
 import Visibility from './Visibility';
 
@@ -71,8 +71,8 @@ const Tournament = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [sortedCompetitors, setSortedCompetitors] = useState([]);
-  const [showRandomizeConfirm, setShowRandomizeConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showRandomizeModal, setShowRandomizeModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
 
   const { data, refetch, ...queryStatus } =
@@ -86,14 +86,6 @@ const Tournament = () => {
     variables: { input: { id } },
     onCompleted: () => {
       navigate('/tournaments');
-    }
-  });
-
-  const [randomTournamentSeeds] = useMutation(RANDOM_TOURNAMENT_SEEDS, {
-    variables: { input: { id } },
-    onCompleted: () => {
-      refetch();
-      setShowRandomizeConfirm(false);
     }
   });
 
@@ -261,7 +253,7 @@ const Tournament = () => {
             {canEditCompetitors && (
               <Button
                 label="Randomize Seeding"
-                onPress={() => setShowRandomizeConfirm(true)}
+                onPress={() => setShowRandomizeModal(true)}
               />
             )}
 
@@ -311,14 +303,6 @@ const Tournament = () => {
       </CompetitorsContainer>
 
       <Confirm
-        title="Randomize Seeding"
-        message="Are you sure you want to randomize the seeding order?"
-        show={showRandomizeConfirm}
-        setShow={setShowRandomizeConfirm}
-        onConfirm={randomTournamentSeeds}
-      />
-
-      <Confirm
         title="Delete Tournament"
         message="Are you sure you want to delete this tournament?"
         show={showDeleteConfirm}
@@ -326,6 +310,14 @@ const Tournament = () => {
         onConfirm={deleteTournament}
         dangerous
       />
+
+      {showRandomizeModal && (
+        <RandomizeSeeds
+          tournament={data?.currentUser.tournament}
+          refetch={refetch}
+          handleHide={() => setShowRandomizeModal(false)}
+        />
+      )}
 
       {showScheduleModal && (
         <ScheduleTournament
