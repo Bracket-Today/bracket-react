@@ -2,9 +2,8 @@ import { gql } from '@apollo/client';
 
 import { CONTEST_FIELDS } from 'app/src/components/Bracket/queries';
 
-const TOURNAMENT_FIELDS = gql`
-  ${CONTEST_FIELDS}
-  fragment TournamentFields on Tournament {
+const TOURNAMENT_CORE_FIELDS = gql`
+  fragment TournamentCoreFields on Tournament {
     id
     bracketPath
     name
@@ -13,6 +12,14 @@ const TOURNAMENT_FIELDS = gql`
     roundDurationQuantity
     roundDurationUnit
     startAt
+  }
+`;
+
+const TOURNAMENT_FIELDS = gql`
+  ${TOURNAMENT_CORE_FIELDS}
+  ${CONTEST_FIELDS}
+  fragment TournamentFields on Tournament {
+    ...TournamentCoreFields
     competitors {
       id
       seed
@@ -42,11 +49,11 @@ export const USER_TOURNAMENT = gql`
 `;
 
 export const USER_TOURNAMENTS = gql`
-  ${TOURNAMENT_FIELDS}
+  ${TOURNAMENT_CORE_FIELDS}
   query UserTournaments {
     currentUser {
       tournaments {
-        ...TournamentFields
+        ...TournamentCoreFields
       }
     }
   }
