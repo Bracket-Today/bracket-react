@@ -17,6 +17,7 @@ export const USER_FIELDS = gql`
     username
     instagramHandle
     twitterHandle
+    dailyReminder
   }
 `;
 

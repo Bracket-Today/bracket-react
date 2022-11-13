@@ -10,25 +10,24 @@ import { Subtitle } from 'app/src/styles';
 
 import { UPDATE_CURRENT_USER } from './queries';
 
+const userValues = user => ({
+  username: user.username || '',
+  instagramHandle: user.instagramHandle || '',
+  twitterHandle: user.twitterHandle || '',
+  dailyReminder: user.dailyReminder || false,
+});
+
 const EditProfile = () => {
   const [submitting, setSubmitting] = useState();
   const [userErrors, setUserErrors] = useState();
   const { currentUser, refetchCurrentUser } = useContext(ClientContext);
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
-    defaultValues: {
-      username: currentUser.username || '',
-      instagramHandle: currentUser.instagramHandle || '',
-      twitterHandle: currentUser.twitterHandle || '',
-    }
+    defaultValues: userValues(currentUser)
   });
 
   useEffect(() => {
-    reset({
-      username: currentUser.username || '',
-      instagramHandle: currentUser.instagramHandle || '',
-      twitterHandle: currentUser.twitterHandle || '',
-    });
+    reset(userValues(currentUser));
   }, [currentUser]);
 
   const [updateCurrentUser, { error }] = useMutation(UPDATE_CURRENT_USER, {
@@ -60,6 +59,13 @@ const EditProfile = () => {
             message: 'Must be 4 to 15 letters, numbers, or underscore'
           }
         }}
+      />
+
+      <Input.Switch
+        label="Send me a daily reminder to vote"
+        name="dailyReminder"
+        control={control}
+        errors={errors}
       />
 
       <Subtitle>

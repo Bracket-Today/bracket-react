@@ -1,9 +1,15 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components/native';
 import { Controller } from 'react-hook-form';
-import { Platform, View, TextInput as BaseTextInput } from 'react-native';
+import {
+  Platform,
+  View,
+  Switch,
+  TextInput as BaseTextInput
+} from 'react-native';
 
 import { Text, Hint } from 'app/src/styles';
+import colors from 'app/src/styles/colors';
 import fonts from 'app/src/styles/fonts';
 
 import { Picker } from './Picker';
@@ -29,7 +35,18 @@ const ErrorText = styled(Text)`
 `;
 
 export const Field = styled(View)`
-  marginBottom: 10px;
+  margin-bottom: 10px;
+`;
+
+export const SwitchField = styled(View)`
+  flex-direction: row;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  align-items: center;
+`;
+
+const SwitchLabel = styled(Text)`
+  margin-left: 10px;
 `;
 
 export const FieldLabel = ({ name, label, hint, errors }) => {
@@ -157,10 +174,37 @@ export const PickerInput = props => {
   );
 };
 
+export const SwitchInput = props => {
+  const {
+    label,
+    control,
+    ...controllerProps
+  } = props;
+
+  return (
+    <SwitchField>
+      <Controller
+        {...controllerProps}
+        control={control}
+        render={({ field }) => (
+          <Switch
+            {...field}
+            activeTrackColor={colors.lightButton}
+            activeThumbColor={colors.button}
+            onValueChange={field.onChange}
+          />
+        )}
+      />
+      <SwitchLabel>{label}</SwitchLabel>
+    </SwitchField>
+  );
+};
+
 const Input = {
   Text: TextInput,
   DateTime: DateTimeInput,
   Picker: PickerInput,
+  Switch: SwitchInput,
 };
 
 export default Input;
