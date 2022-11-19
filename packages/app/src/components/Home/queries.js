@@ -24,5 +24,12 @@ export const TOURNAMENTS = gql`
       currentUserVotedWinnerCount
       featured
     }
+    upcoming: tournaments(
+      scopes: ["upcoming", "visible"]
+    ) {
+      id
+      name
+      startAt
+    }
   }
 `;

@@ -12,6 +12,7 @@ import Announcements from 'app/src/components/Announcements';
 
 import { TOURNAMENTS } from './queries';
 import TournamentCard from './TournamentCard';
+import UpcomingCard from './UpcomingCard';
 
 const Container = styled(View)`
   display: flex;
@@ -44,6 +45,9 @@ const Home = () => {
       </Header>
       <Container>
         <DataState data={data} {...queryStatus}>
+          {data?.upcoming.length > 0 && (
+            <UpcomingCard tournaments={data.upcoming} />
+          )}
           {data?.tournaments.map(tournament => (
             <TournamentCard key={tournament.id} tournament={tournament} />
           ))}

@@ -7,7 +7,7 @@ import colors from 'app/src/styles/colors';
 import { Link, useNavigate } from 'app/src/utils/routing';
 import Contest from 'app/src/components/Bracket/Contest';
 
-const Card = styled(View)`
+export const Card = styled(View)`
   border-width: 2px;
   border-style: solid;
   border-color: ${props => props.featured ? colors.button : colors.screen};
@@ -24,7 +24,7 @@ const Card = styled(View)`
   min-width: 300px;
 `;
 
-const Name = styled(Text)`
+export const Name = styled(Text)`
   font-size: 20px;
 `;
 
