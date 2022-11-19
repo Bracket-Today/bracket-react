@@ -22,6 +22,7 @@ export const Card = styled(View)`
   flex-shrink: 1;
   width: 10%;
   min-width: 300px;
+  background-color: #f9f9f9;
 `;
 
 export const Name = styled(Text)`
