@@ -7,6 +7,7 @@ const TOURNAMENT_CORE_FIELDS = gql`
     id
     bracketPath
     name
+    notes
     status
     visibility
     roundDurationQuantity
@@ -94,6 +95,17 @@ export const SCHEDULE_TOURNAMENT = gql`
   ${TOURNAMENT_FIELDS}
   mutation ScheduleTournament($input: ScheduleTournamentInput!) {
     scheduleTournament(input: $input) {
+      tournament {
+        ...TournamentFields
+      }
+    }
+  }
+`;
+
+export const UPDATE_TOURNAMENT = gql`
+  ${TOURNAMENT_FIELDS}
+  mutation UpdateTournament($input: UpdateTournamentInput!) {
+    updateTournament(input: $input) {
       tournament {
         ...TournamentFields
       }

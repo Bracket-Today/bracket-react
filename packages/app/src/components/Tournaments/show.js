@@ -22,6 +22,7 @@ import {
   UPDATE_TOURNAMENT_SEEDS,
 } from './queries';
 import Competitor from './Competitor';
+import EditTournament from './Edit';
 import EntitySelect from './EntitySelect';
 import RandomizeSeeds from './RandomizeSeeds';
 import ScheduleTournament from './Schedule';
@@ -56,6 +57,15 @@ const Subheader = styled(View)`
   justify-content: space-between;
 `;
 
+const Buttons = styled(View)`
+  flex-direction: row;
+`;
+
+const TournamentButton = styled(Button)`
+  width: 80px;
+  margin-left: 10px;
+`;
+
 const dndOptions = {
   enableMouseEvents: true
 };
@@ -74,6 +84,7 @@ const Tournament = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showRandomizeModal, setShowRandomizeModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const { data, refetch, ...queryStatus } =
     useQuery(USER_TOURNAMENT, { variables: { id } });
@@ -153,6 +164,9 @@ const Tournament = () => {
     <DataState data={data} {...queryStatus}>
       <Header>
         <Title>{data?.currentUser.tournament.name}</Title>
+        {data?.currentUser.tournament.notes && (
+          <Hint>{data.currentUser.tournament.notes}</Hint>
+        )}
         <Subheader>
           <Subtitle>
             <MediaQuery minWidth={800}>
@@ -176,12 +190,19 @@ const Tournament = () => {
             </MediaQuery>
           </Subtitle>
           {canEditCompetitors && (
-            <Button
-              label="Delete"
-              onPress={() => setShowDeleteConfirm(true)}
-              dangerous
-              inline
-            />
+            <Buttons>
+              <TournamentButton
+                label="Edit"
+                onPress={() => setShowEditModal(true)}
+                inline
+              />
+              <TournamentButton
+                label="Delete"
+                onPress={() => setShowDeleteConfirm(true)}
+                style={{backgroundColor: colors.danger}}
+                inline
+              />
+            </Buttons>
           )}
         </Subheader>
         <MediaQuery maxWidth={799}>
@@ -323,6 +344,13 @@ const Tournament = () => {
         <ScheduleTournament
           tournament={data?.currentUser.tournament}
           handleHide={() => setShowScheduleModal(false)}
+        />
+      )}
+
+      {showEditModal && (
+        <EditTournament
+          tournament={data?.currentUser.tournament}
+          handleHide={() => setShowEditModal(false)}
         />
       )}
     </DataState>

@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import Toast from 'react-native-toast-message';
 
 import { useParams, useNavigate } from 'app/src/utils/routing';
-import { Header, Title, Text } from 'app/src/styles';
+import { Header, Title, Text, Hint } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 
 import { TOURNAMENT } from './queries';
@@ -22,6 +22,13 @@ const Round = styled(View)`
   display: flex;
   flex-direction: column;
   min-width: 100px;
+`;
+
+const NotesContainer = styled(View)`
+  margin-bottom: 10px;
+`;
+
+const Notes = styled(Hint)`
 `;
 
 const Bracket = () => {
@@ -90,6 +97,11 @@ const Bracket = () => {
       </Helmet>
       <Header>
         <Title>{data?.tournament.name}</Title>
+        {data?.tournament.notes && (
+          <NotesContainer>
+            <Notes>{data?.tournament.notes}</Notes>
+          </NotesContainer>
+        )}
         {data?.tournament && (
           <BracketSubtitle
             tournament={data?.tournament}

@@ -53,6 +53,7 @@ const TOURNAMENT_FIELDS = gql`
     id
     bracketPath
     name
+    notes
     status
     owner {
       username
