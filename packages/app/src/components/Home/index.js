@@ -13,6 +13,7 @@ import Announcements from 'app/src/components/Announcements';
 import { TOURNAMENTS } from './queries';
 import TournamentCard from './TournamentCard';
 import UpcomingCard from './UpcomingCard';
+import VideoCard from './VideoCard';
 
 const Container = styled(View)`
   display: flex;
@@ -45,6 +46,9 @@ const Home = () => {
       </Header>
       <Container>
         <DataState data={data} {...queryStatus}>
+          {data?.videos.map(video => (
+            <VideoCard key={video.id} video={video} />
+          ))}
           {data?.upcoming.length > 0 && (
             <UpcomingCard tournaments={data.upcoming} />
           )}

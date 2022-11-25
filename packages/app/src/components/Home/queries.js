@@ -31,5 +31,10 @@ export const TOURNAMENTS = gql`
       name
       startAt
     }
+    videos {
+      id
+      subject
+      youtubeId
+    }
   }
 `;
