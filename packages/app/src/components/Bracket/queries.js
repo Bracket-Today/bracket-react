@@ -1,16 +1,5 @@
 import { gql } from '@apollo/client';
-
-const COMPETITOR_FIELDS = gql`
-  fragment CompetitorFields on Competitor {
-    id
-    seed
-    annotation
-    entity {
-      name
-      annotation
-    }
-  }
-`;
+import { COMPETITOR_FIELDS } from 'app/src/components/Competitors/queries';
 
 export const CONTEST_FIELDS = gql`
   ${COMPETITOR_FIELDS}
