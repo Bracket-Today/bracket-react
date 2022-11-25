@@ -39,7 +39,7 @@ const Section = styled(View)`
   margin-bottom: 10px;
 `;
 
-const Detail = ({ tournament, refetch }) => {
+const Detail = ({ tournament }) => {
   const navigate = useNavigate();
 
   if ('Active' === tournament.status) {

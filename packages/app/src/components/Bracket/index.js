@@ -38,7 +38,7 @@ const Bracket = () => {
   const navigate = useNavigate();
 
   const { data, refetch, ...queryStatus } =
-    useQuery(TOURNAMENT, { variables: { id } });
+    useQuery(TOURNAMENT, { variables: { id }, fetchPolicy: 'network-only' });
 
   const goToTournament = tournament => {
     navigate(tournament.bracketPath);
