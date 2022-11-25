@@ -16,8 +16,8 @@ const VideoCard = ({ video }) => {
       <Subject>{video.subject}</Subject>
       <iframe
         src={`https://www.youtube.com/embed/${video.youtubeId}`}
-        title="YouTube video player"r
-        frameborder="0"
+        title="YouTube video player"
+        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowFullScreen="allowFullScreen"
       ></iframe>
