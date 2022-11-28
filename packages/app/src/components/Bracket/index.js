@@ -9,6 +9,8 @@ import { useParams, useNavigate } from 'app/src/utils/routing';
 import { Header, Title, Text, Hint } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 
+import Comments from '../Comments';
+
 import { TOURNAMENT } from './queries';
 import BracketSubtitle from './Subtitle';
 import Contest from './Contest';
@@ -123,6 +125,9 @@ const Bracket = () => {
           ))}
         </Tournament>
       </ScrollView>
+      {data?.tournament.viewComments && (
+        <Comments tournament={data.tournament} />
+      )}
     </DataState>
   );
 };

@@ -36,8 +36,20 @@ export const ROUND_FIELDS = gql`
   }
 `;
 
+const COMMENT_FIELDS = gql`
+  fragment CommentFields on Comment {
+    id
+    user {
+      username
+    }
+    body
+    createdAt
+  }
+`;
+
 const TOURNAMENT_FIELDS = gql`
   ${ROUND_FIELDS}
+  ${COMMENT_FIELDS}
   fragment BracketTournamentFields on Tournament {
     id
     bracketPath
@@ -64,6 +76,14 @@ const TOURNAMENT_FIELDS = gql`
       id
       name
       bracketPath
+    }
+    viewComments
+    makeComments
+    comments(scopes: ["root"]) {
+      ...CommentFields
+      children {
+        ...CommentFields
+      }
     }
   }
 `;
