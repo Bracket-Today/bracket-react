@@ -21,6 +21,10 @@ const TOURNAMENT_FIELDS = gql`
   ${CONTEST_FIELDS}
   fragment TournamentFields on Tournament {
     ...TournamentCoreFields
+    basedOn {
+      name
+      bracketPath
+    }
     competitors {
       id
       seed
@@ -75,6 +79,18 @@ export const CREATE_TOURNAMENT = gql`
 export const DELETE_TOURNAMENT = gql`
   mutation DeleteTournament($input: DeleteTournamentInput!) {
     deleteTournament(input: $input) {
+      errors { path, message }
+    }
+  }
+`;
+
+export const CLONE_TOURNAMENT = gql`
+  ${TOURNAMENT_FIELDS}
+  mutation CloneTournament($input: CloneTournamentInput!) {
+    cloneTournament(input: $input) {
+      tournament {
+        ...TournamentFields
+      }
       errors { path, message }
     }
   }

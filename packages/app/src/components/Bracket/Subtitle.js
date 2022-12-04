@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import { Subtitle } from 'app/src/styles';
+import { Subtitle, Text } from 'app/src/styles';
 import durationString from 'app/src/utils/durationString';
+import { Link } from 'app/src/utils/routing';
 
 const BracketSubtitle = ({ tournament, updatedAt }) => {
   const [remaining, setRemaining] = useState();
@@ -35,9 +36,21 @@ const BracketSubtitle = ({ tournament, updatedAt }) => {
   }
 
   return (
-    <Subtitle>
-      {statusDetail}
-    </Subtitle>
+    <>
+      <Subtitle>
+        {statusDetail}
+      </Subtitle>
+      {tournament.basedOn && (
+        <Subtitle>
+          <Link
+            style={{color: 'green'}}
+            to={tournament.basedOn.bracketPath}
+          >
+            <Text>Based on "{tournament.basedOn.name}"</Text>
+          </Link>
+        </Subtitle>
+      )}
+    </>
   );
 };
 

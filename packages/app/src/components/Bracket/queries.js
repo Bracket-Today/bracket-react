@@ -59,6 +59,10 @@ const TOURNAMENT_FIELDS = gql`
     owner {
       username
     }
+    basedOn {
+      name
+      bracketPath
+    }
     round {
       number
       secondsRemaining

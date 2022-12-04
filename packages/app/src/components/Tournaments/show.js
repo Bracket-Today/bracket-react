@@ -217,6 +217,18 @@ const Tournament = () => {
             )}
           </>
         </MediaQuery>
+        {data?.currentUser.tournament.basedOn && (
+          <Subtitle>
+            <Link
+              style={{color: 'green'}}
+              to={data.currentUser.tournament.basedOn.bracketPath}
+            >
+              <Text>
+                Based on "{data.currentUser.tournament.basedOn.name}"
+              </Text>
+            </Link>
+          </Subtitle>
+        )}
       </Header>
 
       {canEditCompetitors && (

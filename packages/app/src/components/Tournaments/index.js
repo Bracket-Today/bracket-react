@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Pressable } from 'react-native';
 import { useQuery, useMutation } from '@apollo/client';
 import DataTable from '@preflighttech/preflight-tables';
 import { useForm } from 'react-hook-form';
@@ -12,9 +12,14 @@ import { Title, Text } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
 import { Link, useNavigate } from 'app/src/utils/routing';
 import { Button } from 'app/src/elements/buttons';
+import Confirm from 'app/src/elements/Confirm';
 import Input from 'app/src/elements/inputs';
 
-import { USER_TOURNAMENTS, CREATE_TOURNAMENT } from './queries';
+import {
+  USER_TOURNAMENTS,
+  CREATE_TOURNAMENT,
+  CLONE_TOURNAMENT,
+} from './queries';
 
 const Header = styled(View)`
   border-top-style: solid;
@@ -24,33 +29,9 @@ const Header = styled(View)`
   padding-top: 10px;
 `;
 
-const columns = [
-  {
-    key: 'name',
-    label: 'Name',
-  },
-  {
-    key: 'status',
-    label: 'Status',
-  },
-  {
-    key: 'actions',
-    label: 'Actions',
-    sort: 'prevent',
-    content: ({ entry }) => (
-      <>
-        {'Closed' !== entry.status && (
-          <Link to={`/tournaments/${entry.id}`}>
-            <Text>Edit</Text>
-          </Link>
-        )}
-      </>
-    )
-  }
-];
-
 const Tournaments = () => {
   const [submitting, setSubmitting] = useState(false);
+  const [showCloneConfirm, setShowCloneConfirm] = useState(false);
   const navigate = useNavigate();
 
   const { data, ...queryStatus } = useQuery(USER_TOURNAMENTS);
@@ -66,6 +47,18 @@ const Tournaments = () => {
     }
   });
 
+  const [cloneTournament] = useMutation(CLONE_TOURNAMENT, {
+    onCompleted: data => {
+      navigate(`/tournaments/${data.cloneTournament.tournament.id}`);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Awesome!',
+        text2: 'You can make this tournament your own',
+      });
+    }
+  });
+
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { name: '', }
   });
@@ -73,6 +66,35 @@ const Tournaments = () => {
   const onSubmit = data => {
     createTournament({ variables: { input: data } });
   };
+
+  const columns = [
+    {
+      key: 'name',
+      label: 'Name',
+    },
+    {
+      key: 'status',
+      label: 'Status',
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      sort: 'prevent',
+      cellStyle: {flexDirection: 'row'},
+      content: ({ entry }) => (
+        <>
+          {'Closed' !== entry.status && (
+            <Link to={`/tournaments/${entry.id}`} style={{paddingRight: 6}}>
+              <Text>Edit</Text>
+            </Link>
+          )}
+          <Pressable onPress={() => setShowCloneConfirm(entry)}>
+            <Text>Clone</Text>
+          </Pressable>
+        </>
+      )
+    }
+  ];
 
   return (
     <>
@@ -106,6 +128,19 @@ const Tournaments = () => {
           />
         )}
       </DataState>
+
+      <Confirm
+        title="Clone Tournament"
+        message={
+          'Create a new tournament based on this on this one? ' +
+          'You can edit the tournament after it is created.'
+        }
+        show={showCloneConfirm}
+        setShow={setShowCloneConfirm}
+        onConfirm={() => {
+          cloneTournament({ variables: { input: { id: showCloneConfirm.id } } })
+        }}
+      />
     </>
   );
 };
