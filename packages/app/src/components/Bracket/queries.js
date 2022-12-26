@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { COMMENT_FIELDS } from 'app/src/components/Comments/queries';
 import { COMPETITOR_FIELDS } from 'app/src/components/Competitors/queries';
 
 export const CONTEST_FIELDS = gql`
@@ -33,17 +34,6 @@ export const ROUND_FIELDS = gql`
     contests {
       ...ContestFields
     }
-  }
-`;
-
-const COMMENT_FIELDS = gql`
-  fragment CommentFields on Comment {
-    id
-    user {
-      username
-    }
-    body
-    createdAt
   }
 `;
 

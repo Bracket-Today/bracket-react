@@ -18,6 +18,7 @@ export const USER_FIELDS = gql`
     instagramHandle
     twitterHandle
     dailyReminder
+    registered
   }
 `;
 

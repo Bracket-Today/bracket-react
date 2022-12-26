@@ -1,5 +1,5 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { View, Pressable } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components/native';
@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import { Subtitle } from 'app/src/styles';
 
 import Comment from './show';
+import NewComment from './new';
 
 const Header = styled(View)`
   flex-direction: row;
@@ -18,18 +19,35 @@ const Title = styled(Subtitle)`
   margin-right: 6px;
 `;
 
-const Comments = ({ tournament }) => {
+const Comments = ({ tournament, refetch }) => {
+  const [showNew, setShowNew] = useState(false);
+
   return (
     <>
       <Header>
         <Title>Comments</Title>
         {tournament.makeComments && (
-          <FontAwesomeIcon icon={faComment} size={20} />
+          <Pressable onPress={() => setShowNew(!showNew)}>
+            <FontAwesomeIcon icon={faComment} size={20} />
+          </Pressable>
         )}
       </Header>
 
+      {showNew && (
+        <NewComment
+          tournament={tournament}
+          handleHide={() => { refetch(); setShowNew(false); }}
+        />
+      )}
+
       {tournament.comments.map(comment => (
-        <Comment key={comment.id} comment={comment} level={0} />
+        <Comment
+          key={comment.id}
+          comment={comment}
+          level={0}
+          tournament={tournament}
+          refetch={refetch}
+        />
       ))}
     </>
   );

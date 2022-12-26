@@ -34,6 +34,11 @@ const ButtonText = styled(HeaderText)`
   text-align: center;
 `;
 
+export const ButtonGroup = styled(View)`
+  flex-direction: row;
+  gap: 8px;
+`;
+
 export const Button = ({ to, label, dangerous, inline, wide, ...props }) => {
   props.style ||= {};
   const textStyle = {};

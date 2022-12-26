@@ -1,10 +1,14 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { View, Pressable } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faComment } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components/native';
 import { DateTime } from 'luxon';
 
 import { Text } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
+
+import NewComment from './new';
 
 const Container = styled(View)`
   margin-left: ${props => 10 * props.level}px;
@@ -23,6 +27,7 @@ const Username = styled(Text)`
 const Time = styled(Text)`
   font-weight: 800;
   color: ${colors.disabled};
+  margin-right: 10px;
 `;
 
 const Body = styled(View)`
@@ -37,8 +42,9 @@ const Body = styled(View)`
 const BodyText = styled(Text)`
 `;
 
-const Comment = ({ comment, level }) => {
+const Comment = ({ comment, level, tournament, refetch }) => {
   const createdAt = DateTime.fromISO(comment.createdAt);
+  const [showNew, setShowNew] = useState(false);
 
   return (
     <Container level={level}>
@@ -46,12 +52,31 @@ const Comment = ({ comment, level }) => {
         {level > 0 && <Text>↪ </Text>}
         <Username>{comment.user.username}</Username>
         <Time>{createdAt.toRelative()}</Time>
+        {0 === level && tournament.makeComments && (
+          <Pressable onPress={() => setShowNew(!showNew)}>
+            <FontAwesomeIcon icon={faComment} size={20} />
+          </Pressable>
+        )}
       </Header>
+
+      {showNew && (
+        <NewComment
+          tournament={tournament}
+          parent={comment}
+          handleHide={() => { refetch(); setShowNew(false); }}
+        />
+      )}
+
       <Body>
         <BodyText>{comment.body}</BodyText>
       </Body>
       {comment.children?.map(child => (
-        <Comment key={child.id} comment={child} level={level + 1} />
+        <Comment
+          key={child.id}
+          comment={child}
+          level={level + 1}
+          tournament={tournament}
+        />
       ))}
     </Container>
   );

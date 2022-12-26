@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import Modal from 'react-native-modal';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import styled from 'styled-components/native';
 

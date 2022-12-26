@@ -126,7 +126,7 @@ const Bracket = () => {
         </Tournament>
       </ScrollView>
       {data?.tournament.viewComments && (
-        <Comments tournament={data.tournament} />
+        <Comments tournament={data.tournament} refetch={refetch} />
       )}
     </DataState>
   );
