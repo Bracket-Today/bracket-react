@@ -28,7 +28,13 @@ const Confirm = () => {
       navigate('/me');
     },
     onError: () => {
-      setSubmitting(false);
+      Toast.show({
+        type: 'error',
+        text1: "We couldn't find this confirmation token",
+        visibilityTime: 10000,
+      });
+
+      navigate('/me');
     }
   });
 
