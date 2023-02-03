@@ -101,20 +101,22 @@ export const VOTABLE_TOURNAMENTS = gql`
 `;
 
 export const SUBMIT_VOTE = gql`
+  ${CONTEST_FIELDS}
   mutation SubmitVote($input: SubmitVoteInput!) {
     submitVote(input: $input) {
       contest {
-        id
+        ...ContestFields
       }
     }
   }
 `;
 
 export const CLEAR_VOTE = gql`
+  ${CONTEST_FIELDS}
   mutation Vote($input: ClearVoteInput!) {
     clearVote(input: $input) {
       contest {
-        id
+        ...ContestFields
       }
     }
   }

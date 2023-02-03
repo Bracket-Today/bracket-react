@@ -30,7 +30,6 @@ const VoteButton = ({ competitor, contest, refetch, large }) => {
         contestId: contest?.id,
       }
     },
-    onCompleted: refetch
   });
 
   let voteIcon = null;
