@@ -22,7 +22,7 @@ const Header = styled(View)`
 const Annotation = styled(Hint)`
 `;
 
-const CompetitorDetails = ({ competitor, contest, refetch }) => {
+const CompetitorDetails = ({ competitor, contest }) => {
   return (
     <Container>
       {competitor ? (
@@ -44,7 +44,6 @@ const CompetitorDetails = ({ competitor, contest, refetch }) => {
               large
               competitor={competitor}
               contest={contest}
-              refetch={refetch}
             />
           </View>
         </Header>

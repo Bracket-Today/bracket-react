@@ -118,7 +118,7 @@ const Bracket = () => {
               <Text>Round #{round.number}</Text>
               {round.contests.map(contest => (
                 <View key={contest.id} style={{flex: round.multiplier}}>
-                  <Contest contest={contest} refetch={refetch} />
+                  <Contest contest={contest} />
                 </View>
               ))}
             </Round>

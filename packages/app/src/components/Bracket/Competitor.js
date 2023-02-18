@@ -23,7 +23,7 @@ const Annotation = styled(Hint)`
   font-size: 12px;
 `;
 
-const Competitor = ({ competitor, contest, priorScore, refetch }) => {
+const Competitor = ({ competitor, contest, priorScore }) => {
   const [showContest, setShowContest] = useState();
 
   const style = {};
@@ -42,11 +42,10 @@ const Competitor = ({ competitor, contest, priorScore, refetch }) => {
         {annotation && <Annotation>{annotation}</Annotation>}
       </Pressable>
       {priorScore && <Score>({priorScore[0]}-{priorScore[1]})</Score>}
-      <VoteButton competitor={competitor} contest={contest} refetch={refetch} />
+      <VoteButton competitor={competitor} contest={contest} />
       {showContest && (
         <ContestDetails
           contest={contest}
-          refetch={refetch}
           handleHide={() => setShowContest(false)}
         />
       )}

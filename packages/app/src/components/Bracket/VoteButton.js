@@ -22,7 +22,7 @@ const Checkmark = styled(Text)`
   font-size: ${({ large }) => large ? '32px' : '16px'};
 `;
 
-const VoteButton = ({ competitor, contest, refetch, large }) => {
+const VoteButton = ({ competitor, contest, large }) => {
   const [submitVote] = useMutation(SUBMIT_VOTE, {
     variables: {
       input: {
