@@ -9,6 +9,10 @@ export const COMPETITOR_FIELDS = gql`
       id
       name
       annotation
+      externalLinks {
+        id
+        url
+      }
     }
   }
 `;

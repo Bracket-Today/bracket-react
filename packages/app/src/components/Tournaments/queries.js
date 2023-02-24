@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+import { COMPETITOR_FIELDS } from 'app/src/components/Competitors/queries';
 import { CONTEST_FIELDS } from 'app/src/components/Bracket/queries';
 
 const TOURNAMENT_CORE_FIELDS = gql`
@@ -18,6 +19,7 @@ const TOURNAMENT_CORE_FIELDS = gql`
 
 const TOURNAMENT_FIELDS = gql`
   ${TOURNAMENT_CORE_FIELDS}
+  ${COMPETITOR_FIELDS}
   ${CONTEST_FIELDS}
   fragment TournamentFields on Tournament {
     ...TournamentCoreFields
@@ -26,14 +28,7 @@ const TOURNAMENT_FIELDS = gql`
       bracketPath
     }
     competitors {
-      id
-      seed
-      annotation
-      entity {
-        id
-        name
-        annotation
-      }
+      ...CompetitorFields
     }
     firstRoundPreview {
       ...ContestFields

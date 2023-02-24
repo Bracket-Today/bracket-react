@@ -2,13 +2,22 @@ import React, { useCallback, useState } from 'react';
 import Modal from 'react-native-modal';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
+import styled from 'styled-components/native';
 
 import DataState from 'app/src/components/DataState';
+import { Text } from 'app/src/styles';
 import { ModalContent } from 'app/src/styles/modal';
 import Input from 'app/src/elements/inputs';
 import { Button } from 'app/src/elements/buttons';
+import ExternalLink from 'app/src/elements/ExternalLink';
+import truncate from 'app/src/utils/truncate';
 
 import { UPDATE_COMPETITOR } from './queries';
+
+const SpacedLink = styled(Text)`
+  display: block;
+  padding-top: 6px;
+`;
 
 const EditCompetitor = ({ competitor, handleHide }) => {
   const [submitting, setSubmitting] = useState();
@@ -22,6 +31,7 @@ const EditCompetitor = ({ competitor, handleHide }) => {
       id: competitor.id,
       name: competitor.entity.name || '',
       annotation: competitor.annotation || '',
+      url: '',
     }
   });
 
@@ -47,6 +57,21 @@ const EditCompetitor = ({ competitor, handleHide }) => {
             name="annotation"
             control={control}
           />
+          <Input.Text
+            label="Add Link"
+            name="url"
+            control={control}
+          />
+          {competitor.entity.externalLinks.length > 0 && (
+            <>
+              <Text>Existing Links:</Text>
+              {competitor.entity.externalLinks.map(link => (
+                <ExternalLink key={link.id} url={link.url}>
+                  <SpacedLink>{truncate(link.url, 60)}</SpacedLink>
+                </ExternalLink>
+              ))}
+            </>
+          )}
           <Button label="Save" onPress={handleSubmit(onSubmit)} wide />
           <Button
             type="Cancel"
