@@ -4,6 +4,8 @@ import styled from 'styled-components/native';
 
 import { Subtitle, Text, Hint } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
+import truncate from 'app/src/utils/truncate';
+import ExternalLink from 'app/src/elements/ExternalLink';
 
 import VoteButton from './VoteButton';
 
@@ -38,6 +40,11 @@ const CompetitorDetails = ({ competitor, contest }) => {
             {competitor.entity.annotation && (
               <Annotation>{competitor.entity.annotation}</Annotation>
             )}
+          {competitor?.entity.externalLinks.map(link => (
+            <ExternalLink url={link.url}>
+              <Annotation>{truncate(link.url, 100)} ↗</Annotation>
+            </ExternalLink>
+          ))}
           </View>
           <View style={{width: 50}}>
             <VoteButton

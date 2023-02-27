@@ -3,6 +3,8 @@ import { View, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 
 import { Text, Hint } from 'app/src/styles';
+import truncate from 'app/src/utils/truncate';
+import ExternalLink from 'app/src/elements/ExternalLink';
 
 import ContestDetails from './ContestDetails';
 import VoteButton from './VoteButton';
@@ -33,6 +35,8 @@ const Competitor = ({ competitor, contest, priorScore }) => {
 
   const annotation = competitor?.annotation || competitor?.entity.annotation;
 
+  const link = competitor?.entity.externalLinks[0];
+
   return (
     <Container>
       <Pressable onPress={() => setShowContest(true)}>
@@ -40,6 +44,11 @@ const Competitor = ({ competitor, contest, priorScore }) => {
           {competitor?.seed} {competitor?.entity.name}
         </Text>
         {annotation && <Annotation>{annotation}</Annotation>}
+        {link && (
+          <ExternalLink url={link.url}>
+            <Annotation>{truncate(link.url, 60)} ↗</Annotation>
+          </ExternalLink>
+        )}
       </Pressable>
       {priorScore && <Score>({priorScore[0]}-{priorScore[1]})</Score>}
       <VoteButton competitor={competitor} contest={contest} />
