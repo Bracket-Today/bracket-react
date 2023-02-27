@@ -41,7 +41,7 @@ const CompetitorDetails = ({ competitor, contest }) => {
               <Annotation>{competitor.entity.annotation}</Annotation>
             )}
           {competitor?.entity.externalLinks.map(link => (
-            <ExternalLink url={link.url}>
+            <ExternalLink key={link.id} url={link.url}>
               <Annotation>{truncate(link.url, 100)} ↗</Annotation>
             </ExternalLink>
           ))}
