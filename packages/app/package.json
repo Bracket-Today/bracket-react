@@ -11,6 +11,7 @@
     "@preflighttech/preflight-tables": "^0.0.38",
     "graphql": "16.2.0",
     "luxon": "^3.0.4",
+    "papaparse": "^5.3.2",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dnd-touch-backend": "^16.0.1",

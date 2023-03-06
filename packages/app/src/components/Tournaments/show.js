@@ -26,6 +26,7 @@ import EditTournament from './Edit';
 import EntitySelect from './EntitySelect';
 import RandomizeSeeds from './RandomizeSeeds';
 import ScheduleTournament from './Schedule';
+import Upload from './Upload';
 import Visibility from './Visibility';
 
 const CompetitorsContainer = styled(View)`
@@ -84,6 +85,7 @@ const Tournament = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showRandomizeModal, setShowRandomizeModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
 
   const { data, refetch, ...queryStatus } =
@@ -284,10 +286,19 @@ const Tournament = () => {
 
           <DndProvider backend={HTML5Backend}>
             {canEditCompetitors && (
-              <Button
-                label="Randomize Seeding"
-                onPress={() => setShowRandomizeModal(true)}
-              />
+              <View style={{flexDirection: 'row', columnGap: 10}}>
+                <Button
+                  label="Randomize Seeding"
+                  onPress={() => setShowRandomizeModal(true)}
+                />
+
+                {'web' === Platform.OS && (
+                  <Button
+                    label="Add from file"
+                    onPress={() => setShowUploadModal(true)}
+                  />
+                )}
+              </View>
             )}
 
             {sortedCompetitors.map((competitor, index) => (
@@ -349,6 +360,14 @@ const Tournament = () => {
           tournament={data?.currentUser.tournament}
           refetch={refetch}
           handleHide={() => setShowRandomizeModal(false)}
+        />
+      )}
+
+      {showUploadModal && (
+        <Upload
+          tournament={data?.currentUser.tournament}
+          refetch={refetch}
+          handleHide={() => setShowUploadModal(false)}
         />
       )}
 

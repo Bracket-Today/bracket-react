@@ -176,3 +176,13 @@ export const REMOVE_COMPETITOR = gql`
     }
   }
 `;
+
+export const CREATE_COMPETITORS = gql`
+  mutation CreateCompetitors($input: CreateCompetitorsInput!) {
+    createCompetitors(input: $input) {
+      tournament {
+        id
+      }
+    }
+  }
+`;
