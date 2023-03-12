@@ -30,7 +30,11 @@ const Upload = ({ tournament, refetch, handleHide }) => {
       skipEmptyLines: true,
       complete: results => {
         const competitorsAttributes = results.data.map(parsed => {
-          const { name, annotation, seed, link } = parsed;
+          let { name, annotation, seed, link } = parsed;
+          if (seed && 'string' === typeof(seed)) {
+            seed = parseInt(seed);
+          }
+
           return { name, annotation, seed, urls: [link] };
         });
 
