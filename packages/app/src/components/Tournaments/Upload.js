@@ -7,6 +7,7 @@ import DataState from 'app/src/components/DataState';
 import { Subtitle, Text } from 'app/src/styles';
 import { ModalContent } from 'app/src/styles/modal';
 import { Button } from 'app/src/elements/buttons';
+import truncate from 'app/src/utils/truncate';
 
 import { CREATE_COMPETITORS } from './queries';
 
@@ -33,6 +34,10 @@ const Upload = ({ tournament, refetch, handleHide }) => {
           let { name, annotation, seed, link } = parsed;
           if (seed && 'string' === typeof(seed)) {
             seed = parseInt(seed);
+          }
+
+          if (annotation) {
+            annotation = truncate(annotation, 50, '');
           }
 
           return { name, annotation, seed, urls: [link] };

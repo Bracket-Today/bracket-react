@@ -3,7 +3,11 @@ const truncate = (body, limit, trailing) => {
   if (!limit) return body;
   if (body.length <= limit) return body;
 
-  return `${body.substring(0, limit)}${trailing || '...'}`;
+  if ('string' !== typeof trailing) {
+    trailing = '...';
+  }
+
+  return `${body.substring(0, limit)}${trailing}`;
 }
 
 export default truncate;
