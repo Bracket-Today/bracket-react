@@ -10,12 +10,16 @@ import colors from 'app/src/styles/colors';
 import { Link } from 'app/src/utils/routing';
 import ExternalLink from 'app/src/elements/ExternalLink';
 
+import Search from './Search';
+
+// z-index set to 10 to ensure search results show above content
 const Container = styled(View)`
   padding-bottom: 10px;
   flex-direction: row;
   background-color: ${colors.screen};
   border-bottom-color: white;
   border-bottom-width: 1px;
+  z-index: 10;
 `;
 
 const MiniBracket = styled(View)`
@@ -39,9 +43,11 @@ const ItemsLarge = styled.View`
   flex: 1;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-self: center;
+  align-items: center;
+  margin-top: 6px;
   height: 40px;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 const ItemsSmall = styled(View)`
@@ -129,6 +135,7 @@ const Menu = () => {
 
         <MediaQuery minWidth={800}>
           <ItemsLarge>
+            <Search />
             <MenuItems />
           </ItemsLarge>
         </MediaQuery>

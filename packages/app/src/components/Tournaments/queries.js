@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import { COMPETITOR_FIELDS } from 'app/src/components/Competitors/queries';
 import { CONTEST_FIELDS } from 'app/src/components/Bracket/queries';
 
-const TOURNAMENT_CORE_FIELDS = gql`
+export const TOURNAMENT_CORE_FIELDS = gql`
   fragment TournamentCoreFields on Tournament {
     id
     bracketPath
