@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Platform, View } from 'react-native';
 import { useQuery, useMutation } from '@apollo/client';
 import styled from 'styled-components/native';
@@ -11,8 +11,8 @@ import { ActivityIndicator } from 'react-native';
 import { useNavigate, useParams, Link } from 'app/src/utils/routing';
 import { Header, Title, Subtitle, Text, Notice, Hint } from 'app/src/styles';
 import DataState from 'app/src/components/DataState';
+import ConfirmContext from 'app/src/contexts/ConfirmContext';
 import { Button } from 'app/src/elements/buttons';
-import Confirm from 'app/src/elements/Confirm';
 import colors from 'app/src/styles/colors';
 import Contest from 'app/src/components/Bracket/Contest';
 
@@ -81,8 +81,9 @@ const formattedStart = data => {
 const Tournament = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { showConfirm, hideConfirm } = useContext(ConfirmContext);
+
   const [sortedCompetitors, setSortedCompetitors] = useState([]);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showRandomizeModal, setShowRandomizeModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -98,6 +99,7 @@ const Tournament = () => {
   const [deleteTournament] = useMutation(DELETE_TOURNAMENT, {
     variables: { input: { id } },
     onCompleted: () => {
+      hideConfirm();
       navigate('/tournaments');
     }
   });
@@ -107,6 +109,15 @@ const Tournament = () => {
       setSortedCompetitors([...data.currentUser.tournament.competitors]);
     }
   }, [data]);
+
+  const showDeleteConfirm = useCallback(() => {
+    showConfirm({
+      title: 'Delete Tournament',
+      message: 'Are you sure you want to delete this tournament?',
+      dangerous: true,
+      onConfirm: deleteTournament,
+    });
+  });
 
   /**
    * Update order of sortedCompetitors based on dragging.
@@ -200,7 +211,7 @@ const Tournament = () => {
               />
               <TournamentButton
                 label="Delete"
-                onPress={() => setShowDeleteConfirm(true)}
+                onPress={showDeleteConfirm}
                 style={{backgroundColor: colors.danger}}
                 inline
               />
@@ -345,15 +356,6 @@ const Tournament = () => {
           </Preview>
         </MediaQuery>
       </CompetitorsContainer>
-
-      <Confirm
-        title="Delete Tournament"
-        message="Are you sure you want to delete this tournament?"
-        show={showDeleteConfirm}
-        setShow={setShowDeleteConfirm}
-        onConfirm={deleteTournament}
-        dangerous
-      />
 
       {showRandomizeModal && (
         <RandomizeSeeds

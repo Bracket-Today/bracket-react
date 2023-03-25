@@ -11,6 +11,8 @@ import DataTable from '@preflighttech/preflight-tables';
 import Toast, { SuccessToast } from 'react-native-toast-message';
 
 import { ClientProvider, ClientContext } from './contexts/ClientContext';
+import { ConfirmProvider } from './contexts/ConfirmContext';
+import Confirm from './elements/Confirm';
 import { Router } from 'app/src/utils/routing';
 import Routes from 'app/src/routes';
 import { Text } from 'app/src/styles';
@@ -54,22 +56,25 @@ const App = () => {
             <Router>
               <ApolloProvider client={ctx.client}>
                 <Screen>
-                  <Container>
-                    <Menu />
-                    <Content>
-                      <DataTable.Provider
-                        pageLength={25}
-                        lengthMenu={ [10, 25, 50, 'All'] }
-                        styles={tableStyles}
-                      >
-                        <ErrorBoundary>
-                          <Routes />
-                        </ErrorBoundary>
-                      </DataTable.Provider>
-                    </Content>
-                    <Footer />
-                  </Container>
-                  <Toast config={toastConfig} />
+                  <ConfirmProvider>
+                    <Container>
+                      <Menu />
+                      <Content>
+                        <DataTable.Provider
+                          pageLength={25}
+                          lengthMenu={ [10, 25, 50, 'All'] }
+                          styles={tableStyles}
+                        >
+                          <ErrorBoundary>
+                            <Routes />
+                          </ErrorBoundary>
+                        </DataTable.Provider>
+                      </Content>
+                      <Footer />
+                    </Container>
+                    <Toast config={toastConfig} />
+                    <Confirm />
+                  </ConfirmProvider>
                 </Screen>
               </ApolloProvider>
             </Router>

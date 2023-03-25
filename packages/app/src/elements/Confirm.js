@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AwesomeAlert from 'react-native-awesome-alerts';
+
 import colors from 'app/src/styles/colors';
+import ConfirmContext from 'app/src/contexts/ConfirmContext';
 
 const styles = {
   contentContainer: {
@@ -14,26 +16,24 @@ const styles = {
 };
 
 const Confirm = props => {
-  const {
-    title, message, show, setShow, onConfirm, dangerous, ...alertProps
-  } = props;
+  const { show, alertProps, hideConfirm } = useContext(ConfirmContext);
 
   if (!show) { return null; }
 
   return (
     <AwesomeAlert
       show
-      title={title}
-      message={message}
+      title={alertProps.title}
+      message={alertProps.message}
       showCancelButton
       showConfirmButton
-      onCancelPressed={() => setShow(false)}
-      onConfirmPressed={onConfirm}
-      onDismiss={() => setShow(false)}
+      onCancelPressed={hideConfirm}
+      onConfirmPressed={alertProps.onConfirm}
+      onDismiss={hideConfirm}
       contentContainerStyle={styles.contentContainer}
       overlayStyle={styles.overlay}
       cancelButtonColor={colors.disabled}
-      confirmButtonColor={dangerous ? colors.danger : colors.button}
+      confirmButtonColor={alertProps.dangerous ? colors.danger : colors.button}
     />
   );
 };
