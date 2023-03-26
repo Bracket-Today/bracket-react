@@ -33,7 +33,7 @@ const NewComment = ({ tournament, parent, handleHide }) => {
     createComment({ variables: { input } });
   });
 
-  if (!currentUser.registered || !currentUser.username) {
+  if (!currentUser?.registered || !currentUser.username) {
     return (
       <Link to="/me">
         <WarningText>
