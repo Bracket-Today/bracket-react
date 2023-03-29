@@ -7,9 +7,9 @@ import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import { Text } from 'app/src/styles';
 import colors from 'app/src/styles/colors';
-import { Link } from 'app/src/utils/routing';
 
 import { SEARCH } from './queries';
+import Result from './Result';
 
 const Container = styled(View)`
   flex: 1;
@@ -41,18 +41,6 @@ const Results = styled(View)`
   border-style: solid;
   border-color: black;
   padding-top: 5px;
-`;
-
-const Result = styled(Pressable)`
-  padding: 5px;
-`;
-
-const ResultDetails = styled(View)`
-  flex-direction: row;
-`;
-
-const ResultName = styled(View)`
-  width: 200px;
 `;
 
 const Search = () => {
@@ -88,24 +76,14 @@ const Search = () => {
           size={20}
         />
       )}
-      {data && term.length > 2 && (
+      {data && term.length > 2 && data.search.length > 0 && (
         <Results>
           {data.search.map(result => (
             <Result
               key={`${result.__typename}-${result.id}`}
-              onPress={() => setTerm('')}
-              style={state => (
-                { backgroundColor: state.hovered ? 'lightgray' : 'none' }
-              )}
-            >
-              <Link to={result.bracketPath}>
-                <ResultDetails>
-                  <ResultName>
-                    <Text>{result.name}</Text>
-                  </ResultName>
-                </ResultDetails>
-              </Link>
-            </Result>
+              result={result}
+              setTerm={setTerm}
+            />
           ))}
         </Results>
       )}
