@@ -12,6 +12,7 @@ import Profile from 'app/src/components/Profile';
 import ConfirmUser from 'app/src/components/Profile/Confirm';
 import LoginCode from 'app/src/components/Profile/LoginCode';
 import Ticket from 'app/src/components/Ticket';
+import Entity from 'app/src/components/Entities/show';
 import Tournaments from 'app/src/components/Tournaments';
 import Tournament from 'app/src/components/Tournaments/show';
 
@@ -26,6 +27,8 @@ const Routes = () => {
       <Route exact path="/me/confirm" element={<ConfirmUser />} />
       <Route exact path="/login/:code" element={<LoginCode />} />
       <Route exact path="/ticket" element={<Ticket />} />
+      <Route exact path="/entities/:id" element={<Entity />} />
+      <Route exact path="/entities/:id/:slug" element={<Entity />} />
       <Route exact path="/tournaments" element={<Tournaments />} />
       <Route exact path="/tournaments/:id" element={<Tournament />} />
     </Switch>
