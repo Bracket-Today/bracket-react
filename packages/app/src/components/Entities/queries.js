@@ -6,6 +6,16 @@ export const ENTITY_CORE_FIELDS = gql`
     name
     fullPath
     annotation
+    competitors: searchableCompetitors {
+      id
+      annotation
+      tournament {
+        name
+        bracketPath
+        statusDetail
+        startAt
+      }
+    }
   }
 `;
 

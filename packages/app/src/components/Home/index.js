@@ -15,7 +15,7 @@ import TournamentCard from './TournamentCard';
 import UpcomingCard from './UpcomingCard';
 import VideoCard from './VideoCard';
 
-const Container = styled(View)`
+export const Container = styled(View)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
