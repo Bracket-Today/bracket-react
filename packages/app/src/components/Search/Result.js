@@ -44,7 +44,7 @@ const BracketResult = ({ result }) => {
           <NameText>{result.name}</NameText>
         </Name>
         <Detail>
-          <Text>{result.status}</Text>
+          <Text>{result.statusDetail}</Text>
         </Detail>
       </Container>
     </Link>

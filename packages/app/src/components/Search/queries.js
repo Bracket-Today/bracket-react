@@ -10,6 +10,7 @@ export const SEARCH = gql`
     search(term: $term) {
       ... on Tournament {
         ...TournamentCoreFields
+        statusDetail
       }
       ... on Entity {
         ...EntityCoreFields
